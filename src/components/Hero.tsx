@@ -1,12 +1,15 @@
 import { useState } from 'react';
-import { ChevronDown, Menu, X } from 'lucide-react';
+import { ChevronDown, Menu, Phone, X } from 'lucide-react';
 
 const NAV_LINKS = [
-  { label: 'Solutions', href: '#solutions' },
-  { label: 'Secteurs', href: '#secteurs' },
+  { label: 'Savoir-faire', href: '#solutions' },
+  { label: 'Services', href: '#secteurs' },
   { label: 'Réalisations', href: '#realisations' },
   { label: 'FAQ', href: '#faq' },
 ];
+
+const TEL_DISPLAY = '+32 493 08 33 44';
+const TEL_HREF = 'tel:+32493083344';
 
 export default function Hero({ onAdvance }: { onAdvance: () => void }) {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -31,7 +34,7 @@ export default function Hero({ onAdvance }: { onAdvance: () => void }) {
           <div className="flex items-center gap-2 sm:gap-3 animate-fade-up" style={{ animationDelay: '400ms' }}>
             <LogoMark />
             <span className="font-octosquares font-medium text-lg sm:text-[22px] text-black tracking-tight">
-              Building360
+              VDH Construct
             </span>
           </div>
 
@@ -53,7 +56,7 @@ export default function Hero({ onAdvance }: { onAdvance: () => void }) {
             className="hidden md:inline-flex px-6 py-3.5 bg-dark rounded-sm text-gold text-[13px] font-medium uppercase tracking-[0.07em] hover:bg-black transition-colors animate-fade-up"
             style={{ animationDelay: '820ms' }}
           >
-            Demander un devis
+            Devis gratuit
           </a>
 
           <button
@@ -101,7 +104,7 @@ export default function Hero({ onAdvance }: { onAdvance: () => void }) {
               </a>
             ))}
           </div>
-          <div className="px-5 sm:px-8 mt-6">
+          <div className="flex flex-col items-start gap-3 px-5 sm:px-8 mt-6">
             <a
               href="#contact"
               onClick={() => setMenuOpen(false)}
@@ -110,7 +113,18 @@ export default function Hero({ onAdvance }: { onAdvance: () => void }) {
               }`}
               style={{ transitionDelay: menuOpen ? `${80 + NAV_LINKS.length * 50}ms` : '0ms' }}
             >
-              Demander un devis
+              Devis gratuit
+            </a>
+            <a
+              href={TEL_HREF}
+              onClick={() => setMenuOpen(false)}
+              className={`inline-flex items-center gap-2 px-6 py-4 rounded-sm border border-gold-dark text-black text-[13px] font-semibold uppercase tracking-[0.07em] hover:bg-black/5 transition-all duration-400 ${
+                menuOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3'
+              }`}
+              style={{ transitionDelay: menuOpen ? `${130 + NAV_LINKS.length * 50}ms` : '0ms' }}
+            >
+              <Phone size={15} />
+              {TEL_DISPLAY}
             </a>
           </div>
         </div>
@@ -121,19 +135,19 @@ export default function Hero({ onAdvance }: { onAdvance: () => void }) {
               className="block text-[clamp(1.8rem,7vw,5.5rem)] animate-fade-up"
               style={{ animationDelay: '500ms' }}
             >
-              Éliminer
+              Pavage
             </span>
             <span
               className="block text-[clamp(1.8rem,7vw,5.5rem)] mt-2 sm:mt-3 animate-fade-up"
               style={{ animationDelay: '620ms' }}
             >
-              les frictions
+              Terrasse
             </span>
             <span
               className="block text-[clamp(1.8rem,7vw,5.5rem)] mt-2 sm:mt-3 animate-fade-up"
               style={{ animationDelay: '740ms' }}
             >
-              du risque
+              Maçonnerie
             </span>
           </h1>
 
@@ -141,7 +155,7 @@ export default function Hero({ onAdvance }: { onAdvance: () => void }) {
             className="max-w-[26rem] px-5 sm:px-8 lg:px-12 mt-6 lg:mt-0 mb-5 sm:mb-6 text-black text-[14px] sm:text-[15px] font-medium uppercase leading-[1.4] tracking-[0.04em] animate-fade-up lg:col-start-1 lg:row-start-2"
             style={{ animationDelay: '900ms' }}
           >
-            L&apos;assurance nouvelle génération pour les bâtisseurs et les entreprises qui construisent les infrastructures de demain.
+            Aménagements extérieurs à Engis, Flémalle et Seraing. Devis gratuit après visite sur place, du lundi au samedi.
           </p>
 
           <div
@@ -161,16 +175,31 @@ export default function Hero({ onAdvance }: { onAdvance: () => void }) {
               className="inline-flex px-6 py-3.5 bg-dark rounded-sm text-gold text-[13px] font-medium uppercase tracking-[0.07em] hover:bg-black transition-colors animate-fade-up"
               style={{ animationDelay: '1050ms' }}
             >
-              Demander un devis
+              Devis gratuit
+            </a>
+            <a
+              href={TEL_HREF}
+              className="inline-flex items-center gap-2 px-5 py-3.5 rounded-sm border border-gold-dark text-black text-[13px] font-semibold uppercase tracking-[0.07em] hover:bg-black/5 transition-colors animate-fade-up"
+              style={{ animationDelay: '1120ms' }}
+            >
+              <Phone size={15} />
+              {TEL_DISPLAY}
             </a>
             <button
               onClick={onAdvance}
               className="inline-flex items-center gap-2 px-5 py-3.5 rounded-sm border border-gold-dark text-black text-[13px] font-medium uppercase tracking-[0.07em] hover:bg-black/5 transition-colors animate-fade-up"
-              style={{ animationDelay: '1150ms' }}
+              style={{ animationDelay: '1190ms' }}
             >
               Défiler
               <ChevronDown size={16} className="animate-bounce" />
             </button>
+
+            <p
+              className="basis-full text-black/70 text-[11px] sm:text-[12px] font-medium uppercase tracking-[0.1em] animate-fade-up"
+              style={{ animationDelay: '1260ms' }}
+            >
+              Visite sur place · Sans engagement · Dans 20 km autour d&apos;Engis
+            </p>
           </div>
         </div>
       </div>
@@ -179,17 +208,15 @@ export default function Hero({ onAdvance }: { onAdvance: () => void }) {
 }
 
 function LogoMark() {
+  // Rendu detoure sur fond jaune : ses pixels de bord se fondent dans le dore du hero.
   return (
-    <svg
-      width="32"
-      height="32"
-      viewBox="0 0 32 32"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      className="flex-shrink-0"
-    >
-      <rect x="16" y="2" width="18" height="15" rx="1" transform="rotate(45 16 2)" fill="#080808" />
-      <rect x="10" y="8" width="12" height="15" rx="1" transform="rotate(45 10 8)" fill="#080808" />
-    </svg>
+    <img
+      src="/logo-vdh-gold.webp"
+      alt="VDH Construct & Aménagements Extérieurs"
+      width={48}
+      height={48}
+      className="h-9 w-9 sm:h-12 sm:w-12 flex-shrink-0 select-none"
+      draggable={false}
+    />
   );
 }

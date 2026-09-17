@@ -82,4 +82,5 @@
   .animate-border-draw {
     animation: border-draw 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
   }
+
 }

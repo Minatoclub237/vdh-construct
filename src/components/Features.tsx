@@ -116,17 +116,15 @@ export default function Features() {
 }
 
 function LogoMark() {
+  // Variante detouree sur fond blanc, pour la section blanche.
   return (
-    <svg
-      width="32"
-      height="32"
-      viewBox="0 0 32 32"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      className="flex-shrink-0"
-    >
-      <rect x="16" y="2" width="18" height="15" rx="1" transform="rotate(45 16 2)" fill="#080808" />
-      <rect x="10" y="8" width="12" height="15" rx="1" transform="rotate(45 10 8)" fill="#080808" />
-    </svg>
+    <img
+      src="/logo-vdh-white.webp"
+      alt="VDH Construct & Aménagements Extérieurs"
+      width={48}
+      height={48}
+      className="h-9 w-9 sm:h-12 sm:w-12 flex-shrink-0 select-none"
+      draggable={false}
+    />
   );
 }
