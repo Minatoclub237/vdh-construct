@@ -3,8 +3,8 @@ import { useInView } from '@/components/scroll/Reveal';
 
 
 const NAV_LINKS = [
-  { label: 'Solutions', href: '#solutions' },
-  { label: 'Secteurs', href: '#secteurs' },
+  { label: 'Savoir-faire', href: '#solutions' },
+  { label: 'Services', href: '#secteurs' },
   { label: 'Réalisations', href: '#realisations' },
   { label: 'FAQ', href: '#faq' },
 ];
@@ -36,7 +36,7 @@ export default function Features() {
             <div className={`flex items-center gap-2 sm:gap-3 ${anim('animate-fade-up')}`} style={{ animationDelay: '350ms' }}>
               <LogoMark />
               <span className="font-octosquares font-medium text-lg sm:text-[22px] text-black tracking-tight">
-                Building360
+                VDH Construct
               </span>
             </div>
 
@@ -62,7 +62,7 @@ export default function Features() {
               )}`}
               style={{ animationDelay: '750ms' }}
             >
-              Demander un devis
+              Devis gratuit
             </a>
           </nav>
 
@@ -73,7 +73,7 @@ export default function Features() {
               )}`}
               style={{ animationDelay: '500ms' }}
             >
-              Une couverture évolutive conçue pour un secteur en mouvement
+De la petite intervention à l’aménagement complet de votre extérieur
             </h2>
 
             <div className="-mx-5 sm:-mx-8 lg:-mx-12 mt-6 sm:mt-8">
@@ -86,7 +86,7 @@ export default function Features() {
               )}`}
               style={{ animationDelay: '1100ms' }}
             >
-              Nous offrons une assurance fiable qui permet aux professionnels de décider en confiance et de se développer sans hésiter.
+              Entretien, pavage, terrasses, clôtures et maçonnerie : un seul artisan pour tout l’extérieur, à Engis et dans un rayon de 20 km.
             </p>
 
             <div
@@ -99,13 +99,13 @@ export default function Features() {
                 href="#contact"
                 className="text-black text-[11px] font-semibold uppercase tracking-[0.05em] underline underline-offset-4 decoration-neutral-400 hover:decoration-neutral-900 transition-colors"
               >
-                Prendre rendez-vous
+                Demander un devis
               </a>
               <a
                 href="#realisations"
                 className="text-black text-[11px] font-semibold uppercase tracking-[0.05em] underline underline-offset-4 decoration-neutral-400 hover:decoration-neutral-900 transition-colors"
               >
-                Voir nos chantiers
+                Voir nos réalisations
               </a>
             </div>
           </div>

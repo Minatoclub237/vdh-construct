@@ -3,23 +3,23 @@ import { ChevronRight } from 'lucide-react';
 import Reveal from '@/components/scroll/Reveal';
 import ScrollVideo from '@/components/scroll/ScrollVideo';
 
-const SERVICES = ['/ MAÇONNERIE GÉNÉRALE', '/ GROS ŒUVRE', '/ RÉNOVATION & EXTENSION'];
+const SERVICES = ['/ PAVAGE & TERRASSE', '/ MAÇONNERIE DE JARDIN', '/ TERRASSEMENT & ENTRETIEN'];
 
 const CAPABILITIES = [
   {
     index: '01',
-    title: 'Fondations & terrassement',
-    body: 'Implantation, terrassement et fondations dimensionnées pour la charge réelle de l’ouvrage.',
+    title: 'Terrassement & drainage',
+    body: 'Décaissement, empierrement et pente d’évacuation : le support qui empêche une terrasse de bouger.',
   },
   {
     index: '02',
-    title: 'Structure & élévation',
-    body: 'Murs porteurs, planchers, poteaux-poutres : une trame maîtrisée du sous-sol à la toiture.',
+    title: 'Pavage & dallage',
+    body: 'Pavés, dalles et pierre bleue, bordures et allées de garage, posés sur une fondation stabilisée.',
   },
   {
     index: '03',
-    title: 'Suivi de chantier',
-    body: 'Un interlocuteur unique, un planning tenu et un compte rendu à chaque phase du chantier.',
+    title: 'Maçonnerie de jardin',
+    body: 'Murs de soutènement, abris de jardin, piliers, rejointoyage et travaux de béton.',
   },
 ];
 
@@ -58,8 +58,8 @@ export default function ScrollStage() {
 
               <Reveal delay={300} className="max-w-xs sm:text-right">
                 <p className="text-lg leading-relaxed text-white drop-shadow-md sm:text-xl">
-                  Nous construisons des structures durables, avec la rigueur et la précision qu’exige
-                  chaque étape du gros œuvre.
+                  Nous posons des extérieurs qui traversent les hivers. Tout le soin est dans la
+                  préparation, avant la première dalle.
                 </p>
               </Reveal>
             </div>
@@ -67,13 +67,13 @@ export default function ScrollStage() {
             <div className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
               <div>
                 <Reveal delay={150} className="mb-5">
-                  <span className={BADGE}>Val-de-Marne · Île-de-France</span>
+                  <span className={BADGE}>Engis · Flémalle · Seraing</span>
                 </Reveal>
                 <Reveal delay={280}>
                   <h2 className={HEADLINE}>
-                    Solide. Précis.
+                    Terrassé. Posé.
                     <br />
-                    Livré.
+                    Fini.
                   </h2>
                 </Reveal>
               </div>
@@ -82,19 +82,19 @@ export default function ScrollStage() {
                 <div className="flex items-center gap-4 rounded-xl bg-white/15 p-3 backdrop-blur-md">
                   <img
                     src="/chantier/3.webp"
-                    alt="Chantier de gros œuvre suivi par Building360"
+                    alt="Murets en blocs de béton sur un chantier VDH Construct"
                     className="h-24 w-20 rounded-lg object-cover"
                   />
                   <div className="flex flex-col gap-1.5 pr-2">
-                    <p className="text-sm font-medium text-white">Parlons de votre chantier</p>
+                    <p className="text-sm font-medium text-white">Parlons de votre extérieur</p>
                     <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-white/60">
-                      Building360 — Gros œuvre
+                      VDH Construct — Engis
                     </p>
                     <a
                       href="#contact"
                       className="mt-1.5 inline-flex items-center gap-1 rounded-full bg-white px-4 py-2 text-xs font-medium text-black transition-colors duration-300 hover:bg-white/85"
                     >
-                      Rendez-vous de 15 min
+                      Visite gratuite sur place
                       <ChevronRight size={14} />
                     </a>
                   </div>
@@ -108,13 +108,13 @@ export default function ScrollStage() {
           <section className={`${SECTION_SHELL} ${SECTION_HEIGHT}`}>
             <div className="flex flex-col gap-8 sm:flex-row sm:items-start sm:justify-between">
               <Reveal delay={120}>
-                <span className={BADGE}>Expertise structurelle</span>
+                <span className={BADGE}>Maçonnerie & gros œuvre</span>
               </Reveal>
 
               <Reveal delay={220} className="max-w-sm sm:text-right">
                 <p className="text-lg leading-relaxed text-white drop-shadow-md sm:text-xl">
-                  Nos équipes ne se contentent pas d’exécuter : elles anticipent, ajustent et
-                  sécurisent chaque phase de l’ouvrage.
+                  Un extérieur qui tient se décide sous la surface : décaissement, empierrement,
+                  pente d’évacuation.
                 </p>
               </Reveal>
             </div>
@@ -123,16 +123,16 @@ export default function ScrollStage() {
               <div className="max-w-xl">
                 <Reveal delay={180}>
                   <h2 className={HEADLINE}>
-                    Bâtir
+                    Fait pour
                     <br />
-                    durablement.
+                    durer.
                   </h2>
                 </Reveal>
 
                 <Reveal delay={320} className="mt-6 max-w-md">
                   <p className="text-sm leading-relaxed text-white/80 drop-shadow-md sm:text-base">
-                    Des premières fouilles au dernier plancher, Building360 transforme un plan en
-                    ouvrage : proprement, précisément, dans les délais annoncés.
+                    Du premier coup de pelle à la dernière bordure, VDH Construct transforme un
+                    terrain en espace de vie : proprement, étape par étape.
                   </p>
                 </Reveal>
 
@@ -142,14 +142,14 @@ export default function ScrollStage() {
                       href="#realisations"
                       className="inline-flex items-center gap-1 rounded-full bg-white px-5 py-2.5 text-xs font-medium text-black transition-colors duration-300 hover:bg-white/85 sm:text-sm"
                     >
-                      Voir nos chantiers
+                      Voir nos réalisations
                       <ChevronRight size={14} />
                     </a>
                     <a
                       href="#contact"
                       className="rounded-full border border-white/25 bg-white/10 px-5 py-2.5 text-xs backdrop-blur-md transition-colors duration-300 hover:bg-white/20 sm:text-sm"
                     >
-                      Demander un devis
+                      Devis gratuit
                     </a>
                   </div>
                 </Reveal>

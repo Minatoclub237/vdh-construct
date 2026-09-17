@@ -1,23 +1,25 @@
 import { useState, type FormEvent } from 'react';
 import { ArrowUpRight, Clock, Mail, MapPin, Phone } from 'lucide-react';
 
-const EMAIL = 'sasbuilding360@gmail.com';
+const EMAIL = 'info@vdhamenagements.be';
 
 const TYPES = [
-  'Construction neuve',
-  'Extension / surélévation',
-  'Rénovation / reprise d’ouvrage',
-  'Terrassement / fondations',
-  'Mur, clôture, dallage',
+  'Pavage et aménagement',
+  'Terrasse',
+  'Petite maçonnerie',
+  'Terrassement (sans mini-pelle)',
+  'Clôtures ou gabions',
+  'Création de parterres',
+  'Entretien de jardin ou de haies',
   'Autre projet',
 ];
 
 const DELAIS = ['Dès que possible', 'Dans 1 à 3 mois', 'Dans 3 à 6 mois', 'Je me renseigne'];
 
 const ENGAGEMENTS = [
-  'Réponse sous 48 h ouvrées',
-  'Visite technique et devis détaillé gratuits',
-  'Attestations d’assurance fournies avant tout acompte',
+  'Visite sur place et devis gratuits, sans engagement',
+  'Déplacement dans un rayon de 20 km autour d’Engis',
+  'Joignable du lundi au samedi, de 8h à 18h',
 ];
 
 export default function Contact() {
@@ -62,20 +64,20 @@ export default function Contact() {
               Contact
             </p>
             <h2 className="mt-4 font-octosquares font-bold uppercase leading-[0.95] text-[clamp(2rem,5vw,3.4rem)]">
-              Parlons de votre chantier
+              Parlons de votre extérieur
             </h2>
             <p className="mt-5 max-w-[30rem] text-[14px] sm:text-[15px] leading-[1.6] text-black/70">
-              Décrivez votre projet en quelques lignes. Un conducteur de travaux vous rappelle pour
-              cadrer la faisabilité, les contraintes structurelles et l’ordre de grandeur du budget.
+              Décrivez votre projet en quelques lignes. Jordan vous rappelle pour convenir d’une
+              visite sur place, mesurer le terrain et vous remettre un devis gratuit.
             </p>
 
             <div className="mt-10 flex flex-col divide-y divide-dashed divide-neutral-300 border-y border-dashed border-neutral-300">
               <a
-                href="tel:+33781410081"
+                href="tel:+32493083344"
                 className="flex items-center gap-3 py-4 text-[15px] transition-colors hover:text-gold-dark"
               >
                 <Phone size={17} className="shrink-0 text-gold-dark" />
-                07 81 41 00 81
+                +32 493 08 33 44
               </a>
               <a
                 href={`mailto:${EMAIL}`}
@@ -86,11 +88,11 @@ export default function Contact() {
               </a>
               <p className="flex items-center gap-3 py-4 text-[15px] text-black/70">
                 <Clock size={17} className="shrink-0 text-gold-dark" />
-                Lundi – samedi, 7h – 21h · Dimanche fermé
+                Lundi – samedi, 8h – 18h · Dimanche fermé
               </p>
               <p className="flex items-center gap-3 py-4 text-[15px] text-black/70">
                 <MapPin size={17} className="shrink-0 text-gold-dark" />
-                Val-de-Marne (94) et Île-de-France
+                Engis, Flémalle, Seraing · 20 km autour d’Engis
               </p>
             </div>
 
@@ -116,7 +118,7 @@ export default function Contact() {
                     name="nom"
                     required
                     autoComplete="name"
-                    placeholder="Jean Dupont"
+                    placeholder="Marie Dupont"
                     className={`mt-2 ${field}`}
                   />
                 </div>
@@ -130,7 +132,7 @@ export default function Contact() {
                     type="tel"
                     required
                     autoComplete="tel"
-                    placeholder="06 12 34 56 78"
+                    placeholder="0470 12 34 56"
                     className={`mt-2 ${field}`}
                   />
                 </div>
@@ -147,7 +149,7 @@ export default function Contact() {
                     type="email"
                     required
                     autoComplete="email"
-                    placeholder="jean.dupont@email.fr"
+                    placeholder="marie.dupont@email.be"
                     className={`mt-2 ${field}`}
                   />
                 </div>
@@ -213,7 +215,7 @@ export default function Contact() {
                   name="message"
                   required
                   rows={5}
-                  placeholder="Surface, niveaux, état de l’existant, plans disponibles…"
+                  placeholder="Surface en m², état du terrain, pente, accès pour les matériaux…"
                   className={`mt-2 resize-y ${field}`}
                 />
               </div>
@@ -240,7 +242,7 @@ export default function Contact() {
               <p className="text-[12px] text-black/50" aria-live="polite">
                 {sent
                   ? 'Votre logiciel de messagerie s’est ouvert avec la demande pré-remplie : il ne reste qu’à l’envoyer.'
-                  : `Le formulaire ouvre votre messagerie avec la demande déjà rédigée. Vous préférez appeler ? 07 81 41 00 81.`}
+                  : `Le formulaire ouvre votre messagerie avec la demande déjà rédigée. Vous préférez appeler ? +32 493 08 33 44.`}
               </p>
             </form>
           </div>

@@ -1,15 +1,56 @@
 import { useEffect, useRef } from 'react';
 import { ArrowUpRight, Phone } from 'lucide-react';
 
+// Un titre par photo reellement posee dans public/realisations.
 const PROJETS = [
-  { num: '01', titre: 'Terrassement\n& fondations', image: '/realisations/1.webp' },
-  { num: '02', titre: 'Élévation\nbéton armé', image: '/realisations/2.webp' },
-  { num: '03', titre: 'Dalle\n& planchers', image: '/realisations/3.webp' },
-  { num: '04', titre: 'Charpente\n& couverture', image: '/realisations/4.webp' },
-  { num: '05', titre: 'Maison\nindividuelle', image: '/realisations/5.webp' },
-  { num: '06', titre: 'Immeuble\nR+4', image: '/realisations/6.webp' },
-  { num: '07', titre: 'Chantier\ntertiaire', image: '/realisations/7.webp' },
-  { num: '08', titre: 'Suivi\nde chantier', image: '/realisations/8.webp' },
+  {
+    num: '01',
+    titre: 'Terrasse\nen pierre',
+    image: '/realisations/1.webp',
+    alt: 'Terrasse en pierre bordée de pelouse devant une maison en brique',
+  },
+  {
+    num: '02',
+    titre: 'Dallage\npierre bleue',
+    image: '/realisations/2.webp',
+    alt: 'Dallage en pierre bleue avec marche et bordure droite',
+  },
+  {
+    num: '03',
+    titre: 'Abords\nde piscine',
+    image: '/realisations/3.webp',
+    alt: 'Margelles en pierre bleue posées au bord d’une piscine',
+  },
+  {
+    num: '04',
+    titre: 'Parterre\nen gravier',
+    image: '/realisations/4.webp',
+    alt: 'Parterre de gravier en deux teintes séparées par une courbe',
+  },
+  {
+    num: '05',
+    titre: 'Muret\nen pierre',
+    image: '/realisations/5.webp',
+    alt: 'Muret en pierre naturelle le long d’une allée de gravier',
+  },
+  {
+    num: '06',
+    titre: 'Massif\npaysager',
+    image: '/realisations/6.webp',
+    alt: 'Massif paysager en paillis d’ardoise planté d’arbustes et de graminées',
+  },
+  {
+    num: '07',
+    titre: 'Parterre\ndécoratif',
+    image: '/realisations/7.webp',
+    alt: 'Parterre décoratif en galets clairs et ardoise, cerné d’une bordure',
+  },
+  {
+    num: '08',
+    titre: 'Allée\n& abords',
+    image: '/realisations/8.webp',
+    alt: 'Allée en gravier stabilisé longeant le mur en brique d’une maison',
+  },
 ];
 
 export default function Realisations() {
@@ -78,8 +119,8 @@ export default function Realisations() {
                 Réalisations
               </h2>
               <p className="mt-6 max-w-[26rem] text-black/60 text-[14px] sm:text-[15px] leading-[1.5]">
-                Huit chantiers représentatifs de ce que nous livrons : du terrassement à la
-                structure finie.
+                Huit chantiers menés autour d’Engis : terrasses, pavage, parterres et maçonnerie,
+                du terrassement à la dernière bordure.
               </p>
             </header>
 
@@ -90,7 +131,7 @@ export default function Realisations() {
               >
                 <img
                   src={projet.image}
-                  alt=""
+                  alt={projet.alt}
                   loading="lazy"
                   draggable={false}
                   className="absolute inset-0 h-full w-full object-cover grayscale transition-[filter,transform] duration-700 ease-out group-hover:grayscale-0 group-hover:scale-[1.03]"
@@ -108,7 +149,7 @@ export default function Realisations() {
                       className="mt-4 inline-flex items-center gap-2 rounded-full bg-white px-5 py-2.5 text-[12px] font-medium uppercase tracking-[0.07em] text-black transition-colors hover:bg-white/85"
                     >
                       <Phone size={14} />
-                      Prendre un RDV
+                      Devis gratuit
                     </a>
                   </div>
                   <ArrowUpRight
