@@ -141,12 +141,36 @@ Palette relevée par échantillonnage du logo :
 
 ## 5. Photos récupérées
 
-**31 photos uniques**, toutes récupérées et optimisées en WebP :
+**30 photos uniques**, toutes récupérées et optimisées en WebP. C'est l'intégralité de ce
+qui est accessible publiquement :
 
-- 7 depuis le site actuel (via les URL Odoo `/web/image/...`), jusqu'à 1246×1662
+- 8 depuis le site actuel (via les URL Odoo `/web/image/...`), jusqu'à 1246×1662 :
+  Media-1, -2, -3, -5, -6, -7, -8 et Media1.png
 - 28 depuis la galerie de la fiche TrustUp (blob Azure), 900×1200 en moyenne
-- recouvrement partiel entre les deux ; pour les doublons, la version la plus haute
-  définition a été conservée
+- 6 photos sont communes aux deux sources ; pour chacune, la version la plus haute
+  définition a été conservée (7 + 28 − 6 doublons + 1 = 30)
+
+### Vérifications faites sur l'exhaustivité
+
+- **La galerie TrustUp est complète à 28.** Les libellés « + 22 photos » (mobile, 6 tuiles
+  visibles) et « + 20 photos » (desktop, 8 tuiles) se recoupent tous deux sur 28. Aucune
+  photo supplémentaire n'est chargée à la demande.
+- **Tous les médias du site Odoo sont récupérés.** Les variantes `customized_Media-*` sont
+  des recadrages Odoo des mêmes fichiers ; les originaux ont été pris.
+- **`Media-4` n'existe pas** dans le site actuel. Il figurait peut-être sur l'ancien
+  WordPress, qui renvoie désormais 404 ; l'Internet Archive était hors service au moment
+  du relevé. À demander au client si la série doit être complète.
+- **La bannière de la fiche TrustUp est une photo de stock** (jardin américain, palissade
+  blanche, brouette fleurie décorative) et non un chantier VDH — volontairement écartée.
+- **Trois SVG** récupérés du site ne sont que les icônes des trois blocs de services
+  (pictogrammes 50×50 de type Font Awesome), pas des visuels d'entreprise.
+- **Un doublon détecté puis supprimé** par comparaison d'empreintes perceptuelles : le
+  parterre de gravier bi-ton existait en 875×1200 (TrustUp) et 1054×1408 (site) ; seule la
+  seconde est conservée.
+- **Les photos de la page Facebook restent inaccessibles.** Facebook renvoie une erreur à
+  toute requête non authentifiée (`mbasic`, `m.` et `www.` testés). C'est la seule source
+  potentiellement porteuse de visuels inédits : à ouvrir manuellement dans un navigateur,
+  ou à demander au client — qui a de toute façon les originaux en pleine résolution.
 
 ### Emplacements remplis dans le clone
 
@@ -176,8 +200,8 @@ Palette relevée par échantillonnage du logo :
 
 ### Photothèque complète
 
-`public/photos/` — les 31 photos nommées par métier, côté long plafonné à 1400 px :
-`maconnerie-*` (10) · `terrasse-*` (6) · `parterre-*` (4) · `pavage-*` (2) · `plantation-*` (2) ·
+`public/photos/` — les 30 photos nommées par métier, côté long plafonné à 1400 px :
+`maconnerie-*` (10) · `terrasse-*` (5) · `parterre-*` (4) · `pavage-*` (2) · `plantation-*` (2) ·
 `entretien-*` (2) · `cloture-*` (3) · `terrassement-*` (1) · `facade-*` (1).
 
 C'est la réserve pour les sections à venir ; les 14 fichiers ci-dessus en sont des recadrages.
