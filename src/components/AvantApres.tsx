@@ -41,37 +41,43 @@ const PAIRES = [
 ];
 
 export default function AvantApres() {
-  const cartesRef = useRef<(HTMLElement | null)[]>([]);
-  const [etats, setEtats] = useState(() => PAIRES.map(() => ({ volet: 0, proximite: 0 })));
+  const plagesRef = useRef<(HTMLDivElement | null)[]>([]);
+  const [etats, setEtats] = useState(() => PAIRES.map(() => ({ volet: 0, entree: 0 })));
 
   useEffect(() => {
     const reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
     let raf = 0;
+
     const render = () => {
       raf = 0;
       const vh = window.innerHeight;
-      const suivant = cartesRef.current.map((el) => {
-        if (!el) return { volet: 0, proximite: 0 };
+      const suivant = plagesRef.current.map((el) => {
+        if (!el) return { volet: 0, entree: 0 };
+        if (reduit) return { volet: 1, entree: 1 };
+
+        // Progression DANS la plage : la carte est collée au centre pendant
+        // tout ce temps, donc le volet s'ouvre sous les yeux du visiteur.
         const r = el.getBoundingClientRect();
-        if (reduit) return { volet: 1, proximite: 1 };
+        const course = Math.max(1, r.height - vh);
+        const brut = -r.top / course;
+        const p = brut < 0 ? 0 : brut > 1 ? 1 : brut;
 
-        // Le volet s'ouvre pendant que la carte traverse l'écran : 0 quand elle
-        // arrive par le bas, 1 quand son centre a dépassé le tiers supérieur.
-        const brut = (vh * 0.85 - r.top) / Math.max(1, r.height * 0.75);
-        const volet = brut < 0 ? 0 : brut > 1 ? 1 : brut;
+        // On garde une marge au debut et a la fin : le volet ne commence pas
+        // avant que la carte soit posee, et finit avant qu'elle reparte.
+        const v = (p - 0.18) / 0.62;
+        const volet = v < 0 ? 0 : v > 1 ? 1 : v;
 
-        // Proximité au centre de l'écran : pilote le redressement de la carte.
-        const centre = Math.abs(r.top + r.height / 2 - vh / 2) / (vh / 2 + r.height / 2);
-        const proximite = 1 - (centre < 0 ? 0 : centre > 1 ? 1 : centre);
-        return { volet, proximite };
+        // Petite mise en place a l'arrivee.
+        const e = p / 0.16;
+        const entree = e < 0 ? 0 : e > 1 ? 1 : e;
+        return { volet, entree };
       });
 
       setEtats((avant) =>
         avant.some(
-          (e, i) =>
-            Math.abs(e.volet - suivant[i].volet) > 0.004 ||
-            Math.abs(e.proximite - suivant[i].proximite) > 0.004,
+          (x, i) =>
+            Math.abs(x.volet - suivant[i].volet) > 0.004 ||
+            Math.abs(x.entree - suivant[i].entree) > 0.004,
         )
           ? suivant
           : avant,
@@ -97,7 +103,7 @@ export default function AvantApres() {
       id="avant-apres"
       className="relative z-[3] rounded-t-[40px] bg-[#111111] font-inter text-white shadow-[0_-28px_60px_-18px_rgba(0,0,0,0.5)]"
     >
-      <div className="mx-auto max-w-[1400px] px-5 py-20 sm:px-8 sm:py-24 lg:px-12">
+      <div className="mx-auto max-w-[1400px] px-5 pt-20 sm:px-8 sm:pt-24 lg:px-12">
         <header className="max-w-[46rem]">
           <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-gold">
             Le même endroit, avant et après
@@ -109,99 +115,107 @@ export default function AvantApres() {
             className="mt-3 font-octosquares text-[clamp(2.2rem,7vw,5rem)] font-bold uppercase leading-[0.9]"
           />
           <p className="mt-5 max-w-[34rem] text-[14px] leading-[1.6] text-white/60 sm:text-[15px]">
-            Quatre chantiers dont nous avons gardé la photo de départ. Faites défiler :
-            l’état d’origine s’efface au profit du résultat.
+            Quatre chantiers dont nous avons gardé la photo de départ. Chaque carte se pose
+            au centre de l’écran, puis l’état d’origine s’efface au profit du résultat.
           </p>
         </header>
+      </div>
 
-        <div className="mt-14 flex flex-col gap-12 sm:gap-16">
-          {PAIRES.map((p, i) => {
-            const { volet, proximite } = etats[i];
-            const pct = Math.round(volet * 100);
-            return (
-              <article
-                key={p.slug}
-                ref={(el) => { cartesRef.current[i] = el; }}
-                className={`grid items-center gap-7 lg:gap-12 ${
-                  i % 2 ? 'lg:grid-cols-[1fr_1.25fr]' : 'lg:grid-cols-[1.25fr_1fr]'
-                }`}
+      {/* Une plage par paire : la carte y reste collée, centrée, le temps du volet. */}
+      {PAIRES.map((p, i) => {
+        const { volet, entree } = etats[i];
+        const pct = Math.round(volet * 100);
+        return (
+          <div
+            key={p.slug}
+            ref={(el) => { plagesRef.current[i] = el; }}
+            className="relative h-[165vh]"
+          >
+            <div className="sticky top-0 flex h-screen items-center overflow-hidden supports-[height:100svh]:h-[100svh]">
+              <div
+                className="mx-auto w-full max-w-[1400px] px-5 sm:px-8 lg:px-12"
                 style={{
-                  // La carte se redresse et remonte en approchant du centre.
-                  transform: `translateY(${(1 - proximite) * 26}px) scale(${0.965 + proximite * 0.035})`,
-                  opacity: 0.45 + proximite * 0.55,
-                  transition: 'transform 120ms linear, opacity 120ms linear',
+                  transform: `translateY(${(1 - entree) * 34}px) scale(${0.96 + entree * 0.04})`,
+                  opacity: 0.25 + entree * 0.75,
                 }}
               >
-                <div
-                  className={`relative aspect-[4/3] max-h-[58vh] overflow-hidden rounded-2xl bg-black/40 ring-1 ring-white/10 ${
-                    i % 2 ? 'lg:order-2' : ''
+                <article
+                  className={`grid items-center gap-5 sm:gap-7 lg:gap-12 ${
+                    i % 2 ? 'lg:grid-cols-[1fr_1.15fr]' : 'lg:grid-cols-[1.15fr_1fr]'
                   }`}
                 >
-                  {/* Etat d'origine, dessous */}
-                  <img
-                    src={`/avant-apres/${p.slug}-avant.webp`}
-                    alt={`Avant travaux : ${p.titre.toLowerCase()}`}
-                    loading="lazy"
-                    draggable={false}
-                    className="absolute inset-0 h-full w-full object-cover"
-                  />
-                  {/* Resultat, revele par le volet */}
-                  <img
-                    src={`/avant-apres/${p.slug}-apres.webp`}
-                    alt={`Après travaux : ${p.titre.toLowerCase()}`}
-                    loading="lazy"
-                    draggable={false}
-                    className="absolute inset-0 h-full w-full object-cover"
-                    style={{ clipPath: `inset(0 0 0 ${100 - pct}%)` }}
-                  />
-
-                  {/* La ligne de séparation suit le volet */}
                   <div
-                    aria-hidden
-                    className="absolute inset-y-0 w-[2px] bg-gold shadow-[0_0_18px_rgba(243,175,66,0.7)]"
-                    style={{ left: `${100 - pct}%`, opacity: pct > 2 && pct < 98 ? 1 : 0 }}
-                  />
-
-                  <span className="absolute left-4 top-4 rounded-full bg-black/65 px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.15em] text-white/80 backdrop-blur-sm">
-                    Avant
-                  </span>
-                  <span
-                    className="absolute right-4 top-4 rounded-full bg-gold px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.15em] text-dark transition-opacity duration-300"
-                    style={{ opacity: pct > 25 ? 1 : 0.25 }}
+                    className={`relative aspect-[4/3] max-h-[44vh] overflow-hidden rounded-2xl bg-black/40 ring-1 ring-white/10 sm:max-h-[52vh] lg:max-h-[62vh] ${
+                      i % 2 ? 'lg:order-2' : ''
+                    }`}
                   >
-                    Après
-                  </span>
-                </div>
+                    {/* Etat d'origine, dessous */}
+                    <img
+                      src={`/avant-apres/${p.slug}-avant.webp`}
+                      alt={`Avant travaux : ${p.titre.toLowerCase()}`}
+                      loading="lazy"
+                      draggable={false}
+                      className="absolute inset-0 h-full w-full object-cover"
+                    />
+                    {/* Resultat, revele par le volet */}
+                    <img
+                      src={`/avant-apres/${p.slug}-apres.webp`}
+                      alt={`Après travaux : ${p.titre.toLowerCase()}`}
+                      loading="lazy"
+                      draggable={false}
+                      className="absolute inset-0 h-full w-full object-cover"
+                      style={{ clipPath: `inset(0 0 0 ${100 - pct}%)` }}
+                    />
 
-                <div>
-                  <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-gold">
-                    0{i + 1} · {p.lieu}
-                  </p>
-                  <h3 className="mt-2 text-2xl font-semibold leading-tight sm:text-3xl">
-                    {p.titre}
-                  </h3>
-                  <p className="mt-3 max-w-[34rem] text-[14px] leading-[1.65] text-white/65">
-                    {p.detail}
-                  </p>
-                  <p className="mt-4 border-l-2 border-gold/50 pl-3 text-[12px] leading-[1.5] text-white/40">
-                    {p.repere}
-                  </p>
+                    <div
+                      aria-hidden
+                      className="absolute inset-y-0 w-[2px] bg-gold shadow-[0_0_18px_rgba(243,175,66,0.7)]"
+                      style={{ left: `${100 - pct}%`, opacity: pct > 2 && pct < 98 ? 1 : 0 }}
+                    />
 
-                  <div
-                    aria-hidden
-                    className="mt-6 h-[3px] w-full max-w-[16rem] overflow-hidden rounded-full bg-white/10"
-                  >
-                    <div className="h-full bg-gold" style={{ width: `${pct}%` }} />
+                    <span className="absolute left-4 top-4 rounded-full bg-black/65 px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.15em] text-white/80 backdrop-blur-sm">
+                      Avant
+                    </span>
+                    <span
+                      className="absolute right-4 top-4 rounded-full bg-gold px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.15em] text-dark transition-opacity duration-300"
+                      style={{ opacity: pct > 25 ? 1 : 0.25 }}
+                    >
+                      Après
+                    </span>
                   </div>
-                </div>
-              </article>
-            );
-          })}
-        </div>
 
+                  <div>
+                    <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-gold">
+                      0{i + 1} · {p.lieu}
+                    </p>
+                    <h3 className="mt-1.5 text-xl font-semibold leading-tight sm:text-2xl lg:text-3xl">
+                      {p.titre}
+                    </h3>
+                    <p className="mt-2.5 max-w-[34rem] text-[13px] leading-[1.6] text-white/65 sm:text-[14px]">
+                      {p.detail}
+                    </p>
+                    <p className="mt-3 border-l-2 border-gold/50 pl-3 text-[11px] leading-[1.5] text-white/40 sm:text-[12px]">
+                      {p.repere}
+                    </p>
+
+                    <div
+                      aria-hidden
+                      className="mt-4 h-[3px] w-full max-w-[16rem] overflow-hidden rounded-full bg-white/10"
+                    >
+                      <div className="h-full bg-gold" style={{ width: `${pct}%` }} />
+                    </div>
+                  </div>
+                </article>
+              </div>
+            </div>
+          </div>
+        );
+      })}
+
+      <div className="mx-auto max-w-[1400px] px-5 pb-20 sm:px-8 sm:pb-24 lg:px-12">
         <a
           href="#contact"
-          className="mt-16 inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-[12px] font-medium uppercase tracking-[0.07em] text-black transition-colors hover:bg-gold"
+          className="inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-[12px] font-medium uppercase tracking-[0.07em] text-black transition-colors hover:bg-gold"
         >
           Montrez-nous votre « avant »
           <ArrowRight size={15} />
