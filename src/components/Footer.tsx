@@ -152,16 +152,18 @@ export default function Footer() {
           </p>
           <div className="flex flex-wrap gap-x-6 gap-y-2">
             <a
-              href="#"
-              className="text-[11px] uppercase tracking-[0.1em] text-dark/60 transition-colors hover:text-dark"
+              href="/mentions-legales"
+              className="text-[11px] uppercase tracking-[0.1em] text-dark/60 underline-offset-2 transition-colors hover:text-dark hover:underline"
             >
               Mentions légales
             </a>
+            {/* Le volet RGPD vit dans les mentions légales (bloc 06) tant que le site
+                reste une page unique sans formulaire serveur ni traceur. */}
             <a
-              href="#"
-              className="text-[11px] uppercase tracking-[0.1em] text-dark/60 transition-colors hover:text-dark"
+              href="/mentions-legales#donnees"
+              className="text-[11px] uppercase tracking-[0.1em] text-dark/60 underline-offset-2 transition-colors hover:text-dark hover:underline"
             >
-              Politique de confidentialité
+              Données personnelles
             </a>
           </div>
         </div>
