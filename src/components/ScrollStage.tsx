@@ -3,23 +3,34 @@ import { ChevronRight } from 'lucide-react';
 import Reveal from '@/components/scroll/Reveal';
 import ScrollVideo from '@/components/scroll/ScrollVideo';
 
-const SERVICES = ['/ PAVAGE & TERRASSE', '/ MAÇONNERIE DE JARDIN', '/ TERRASSEMENT & ENTRETIEN'];
+// Les trois familles. Chacune ouvre la catégorie correspondante dans Réalisations.
+const SERVICES = [
+  { label: '/ PAVAGE & TERRASSE', slug: 'pavage' },
+  { label: '/ MAÇONNERIE DE JARDIN', slug: 'maconnerie' },
+  { label: '/ TERRASSEMENT & ENTRETIEN', slug: 'terrassement' },
+];
 
 const CAPABILITIES = [
   {
     index: '01',
+    slug: 'terrassement',
     title: 'Terrassement & drainage',
     body: 'Décaissement, empierrement et pente d’évacuation : le support qui empêche une terrasse de bouger.',
+    compte: 10,
   },
   {
     index: '02',
+    slug: 'pavage',
     title: 'Pavage & dallage',
     body: 'Pavés, dalles et pierre bleue, bordures et allées de garage, posés sur une fondation stabilisée.',
+    compte: 9,
   },
   {
     index: '03',
+    slug: 'maconnerie',
     title: 'Maçonnerie de jardin',
     body: 'Murs de soutènement, abris de jardin, piliers, rejointoyage et travaux de béton.',
+    compte: 11,
   },
 ];
 
@@ -48,10 +59,13 @@ export default function ScrollStage() {
             <div className="flex flex-col gap-8 sm:flex-row sm:items-start sm:justify-between">
               <div className="flex flex-col gap-2">
                 {SERVICES.map((service, i) => (
-                  <Reveal key={service} delay={150 + i * 120}>
-                    <p className="font-mono text-xs uppercase tracking-[0.15em] text-white/90 drop-shadow-md">
-                      {service}
-                    </p>
+                  <Reveal key={service.slug} delay={150 + i * 120}>
+                    <a
+                      href={`#realisations-${service.slug}`}
+                      className="font-mono text-xs uppercase tracking-[0.15em] text-white/90 drop-shadow-md transition-colors duration-300 hover:text-white"
+                    >
+                      {service.label}
+                    </a>
                   </Reveal>
                 ))}
               </div>
@@ -162,7 +176,7 @@ export default function ScrollStage() {
                     delay={300 + i * 110}
                     className={i < CAPABILITIES.length - 1 ? 'border-b border-white/15' : ''}
                   >
-                    <div className="group flex gap-5 py-5">
+                    <a href={`#realisations-${item.slug}`} className="group flex gap-5 py-5">
                       <span className="font-mono text-[11px] tracking-[0.15em] text-white/55">
                         {item.index}
                       </span>
@@ -175,8 +189,11 @@ export default function ScrollStage() {
                           />
                         </h3>
                         <p className="mt-1.5 text-sm leading-relaxed text-white/70">{item.body}</p>
+                        <span className="mt-2 inline-block font-mono text-[10px] uppercase tracking-[0.15em] text-white/45 transition-colors duration-300 group-hover:text-gold">
+                          Voir les {item.compte} réalisations
+                        </span>
                       </div>
-                    </div>
+                    </a>
                   </Reveal>
                 ))}
               </div>
