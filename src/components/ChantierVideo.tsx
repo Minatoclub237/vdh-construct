@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Play, Phone } from 'lucide-react';
+import TexteRevele from '@/components/ui/TexteRevele';
 
 // Cinq chantiers filmes au telephone par l'entreprise, remontes dans l'ordre du recit :
 // l'etat de depart, puis ce qui se construit, puis ce qui est fini.
@@ -145,9 +146,12 @@ export default function ChantierVideo() {
               <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-gold">
                 Cinq chantiers, filmés au téléphone
               </p>
-              <h2 className="mt-3 font-octosquares text-[clamp(2.2rem,8vw,5.5rem)] font-bold uppercase leading-[0.9]">
-                Brut de chantier
-              </h2>
+              <TexteRevele
+                as="h2"
+                texte="Brut"
+                accent="de chantier"
+                className="mt-3 font-octosquares text-[clamp(2.2rem,8vw,5.5rem)] font-bold uppercase leading-[0.9]"
+              />
               <p className="mt-4 max-w-[30rem] text-[14px] leading-[1.6] text-white/60 sm:text-[15px]">
                 Ni plan de coupe, ni mise en scène. Ce qu’on voit en arrivant sur le
                 chantier — et ce qu’on laisse en partant.

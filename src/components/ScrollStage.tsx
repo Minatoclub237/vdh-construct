@@ -1,6 +1,7 @@
 import { useRef } from 'react';
 import { ChevronRight } from 'lucide-react';
 import Reveal from '@/components/scroll/Reveal';
+import TexteRevele from '@/components/ui/TexteRevele';
 import ScrollVideo from '@/components/scroll/ScrollVideo';
 
 // Les trois familles. Chacune ouvre la catégorie correspondante dans Réalisations.
@@ -92,11 +93,7 @@ export default function ScrollStage() {
                   <span className={BADGE}>Engis · Flémalle · Seraing</span>
                 </Reveal>
                 <Reveal delay={280}>
-                  <h2 className={HEADLINE}>
-                    Terrassé. Posé.
-                    <br />
-                    Fini.
-                  </h2>
+                  <TexteRevele as="h2" texte="Terrassé. Posé." accent="Fini." className={HEADLINE} />
                 </Reveal>
               </div>
 
@@ -144,11 +141,7 @@ export default function ScrollStage() {
             <div className="flex flex-1 flex-col justify-end gap-12 md:flex-row md:items-end md:justify-between md:gap-16">
               <div className="max-w-xl">
                 <Reveal delay={180}>
-                  <h2 className={HEADLINE}>
-                    Fait pour
-                    <br />
-                    durer.
-                  </h2>
+                  <TexteRevele as="h2" texte="Fait pour" accent="durer." className={HEADLINE} />
                 </Reveal>
 
                 <Reveal delay={320} className="mt-6 max-w-md">

@@ -60,7 +60,11 @@ export default function App() {
 
   return (
     <main className="relative">
-      <div ref={heroRangeRef} className="relative z-0 h-screen supports-[height:100svh]:h-[100svh]">
+      <div
+        id="hero"
+        ref={heroRangeRef}
+        className="relative z-0 h-screen supports-[height:100svh]:h-[100svh]"
+      >
         <div
           className="sticky top-0 h-screen supports-[height:100svh]:h-[100svh] overflow-hidden"
           style={{

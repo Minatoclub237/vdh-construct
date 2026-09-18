@@ -1,5 +1,6 @@
 import { useState, type FormEvent } from 'react';
 import { ArrowUpRight, Clock, Mail, MapPin, Phone } from 'lucide-react';
+import TexteRevele from '@/components/ui/TexteRevele';
 
 const EMAIL = 'info@vdhamenagements.be';
 
@@ -63,9 +64,13 @@ export default function Contact() {
             <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-gold-dark">
               Contact
             </p>
-            <h2 className="mt-4 font-octosquares font-bold uppercase leading-[0.95] text-[clamp(2rem,5vw,3.4rem)]">
-              Parlons de votre extérieur
-            </h2>
+            <TexteRevele
+              as="h2"
+              texte="Parlons de"
+              accent="votre extérieur"
+              accentClass="text-gold-dark"
+              className="mt-4 font-octosquares font-bold uppercase leading-[0.95] text-[clamp(2rem,5vw,3.4rem)]"
+            />
             <p className="mt-5 max-w-[30rem] text-[14px] sm:text-[15px] leading-[1.6] text-black/70">
               Décrivez votre projet en quelques lignes. Jordan vous rappelle pour convenir d’une
               visite sur place, mesurer le terrain et vous remettre un devis gratuit.
