@@ -3,6 +3,7 @@ import Hero from '@/components/Hero';
 import Features from '@/components/Features';
 import ScrollStage from '@/components/ScrollStage';
 import Realisations from '@/components/Realisations';
+import ChantierVideo from '@/components/ChantierVideo';
 import Faq from '@/components/Faq';
 import Contact from '@/components/Contact';
 import Footer from '@/components/Footer';
@@ -80,6 +81,8 @@ export default function App() {
       </div>
 
       <Realisations />
+
+      <ChantierVideo />
 
       <Faq />
 
