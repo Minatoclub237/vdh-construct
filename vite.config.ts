@@ -3,6 +3,8 @@ import react from '@vitejs/plugin-react';
 import { fileURLToPath, URL } from 'node:url';
 import { resolve, dirname } from 'node:path';
 
+const racine = dirname(fileURLToPath(import.meta.url));
+
 export default defineConfig({
   plugins: [react()],
   server: { port: 5900, strictPort: true },
@@ -14,8 +16,10 @@ export default defineConfig({
     // pages, chacune avec son URL et son propre HTML indexable.
     rollupOptions: {
       input: {
-        main: resolve(dirname(fileURLToPath(import.meta.url)), 'index.html'),
-        mentionsLegales: resolve(dirname(fileURLToPath(import.meta.url)), 'mentions-legales.html'),
+        main: resolve(racine, 'index.html'),
+        mentionsLegales: resolve(racine, 'mentions-legales.html'),
+        nl: resolve(racine, 'nl/index.html'),
+        nlJuridisch: resolve(racine, 'nl/juridische-vermeldingen.html'),
       },
     },
   },

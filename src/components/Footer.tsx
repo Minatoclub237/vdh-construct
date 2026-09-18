@@ -1,24 +1,15 @@
 import { ArrowUpRight, Mail, MapPin, Phone } from 'lucide-react';
 import TexteRevele from '@/components/ui/TexteRevele';
+import { T, lien, PAGE_LEGALE, langue } from '@/lib/i18n';
+import SelecteurLangue from '@/components/ui/SelecteurLangue';
 
-// Chaque prestation ouvre la famille correspondante dans Réalisations.
-// « Entretien » n'a pas de famille photo : il renvoie au contact.
-const PRESTATIONS = [
-  { label: 'Pavage & terrasses', href: '#realisations-pavage' },
-  { label: 'Maçonnerie de jardin', href: '#realisations-maconnerie' },
-  { label: 'Terrassement & drainage', href: '#realisations-terrassement' },
-  { label: 'Clôtures & portails', href: '#realisations-clotures' },
-  { label: 'Entretien de jardin', href: '#contact' },
-];
-
-const ENTREPRISE = [
-  { label: 'Réalisations', href: '#realisations' },
-  { label: 'Savoir-faire', href: '#solutions' },
-  { label: 'Services', href: '#secteurs' },
-  { label: 'Questions fréquentes', href: '#faq' },
-];
+// Seules les ancres restent ici ; les libellés viennent du dictionnaire.
+const PRESTATIONS = ['#realisations-pavage', '#realisations-maconnerie', '#realisations-terrassement', '#realisations-clotures', '#contact'];
+const ENTREPRISE = ['#realisations', '#solutions', '#secteurs', '#faq'];
 
 export default function Footer() {
+  const t = T();
+  const l = langue();
   return (
     <footer className="relative z-[3] w-full bg-gold font-inter text-dark">
       <div className="absolute inset-2 sm:inset-3 border border-gold-dark rounded-sm pointer-events-none" />
@@ -31,18 +22,18 @@ export default function Footer() {
         <div className="flex flex-col gap-8 border-b border-dashed border-gold-dark pb-12 lg:flex-row lg:items-end lg:justify-between">
           <TexteRevele
             as="h2"
-            texte="Un projet"
-            accent="d’extérieur ?"
+            texte={t.footer.titre}
+            accent={t.footer.titreAccent}
             accentClass="text-white"
             className="max-w-[16ch] font-octosquares text-[clamp(1.9rem,5.5vw,3.6rem)] font-bold uppercase leading-[0.95] text-dark"
           />
 
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
             <a
-              href="#contact"
+              href={lien('#contact')}
               className="inline-flex items-center justify-center gap-2 rounded-sm bg-dark px-7 py-4 text-[13px] font-medium uppercase tracking-[0.07em] text-gold transition-colors hover:bg-black"
             >
-              Devis gratuit
+              {t.commun.devisGratuit}
               <ArrowUpRight size={16} />
             </a>
             <a
@@ -59,8 +50,8 @@ export default function Footer() {
           <div className="flex flex-col gap-4">
             {/* Le logo ramène en haut de page, sur le hero. */}
             <a
-              href="#hero"
-              aria-label="Revenir en haut de la page"
+              href={lien('#hero')}
+              aria-label={t.footer.retourHaut}
               className="group flex w-fit items-center gap-3 rounded-sm transition-opacity hover:opacity-80"
             >
               <LogoMark />
@@ -69,8 +60,7 @@ export default function Footer() {
               </span>
             </a>
             <p className="max-w-[24rem] text-[13px] leading-[1.6] text-dark/70">
-              Aménagements extérieurs et maçonnerie à Engis. Pavage, terrasses, murs de
-              soutènement, clôtures, parterres et entretien de jardin.
+              {t.footer.description}
             </p>
 
             <a
@@ -80,43 +70,43 @@ export default function Footer() {
               className="inline-flex w-fit items-center gap-2.5 rounded-sm border border-gold-dark bg-white/40 px-3.5 py-2.5 text-[13px] font-medium text-dark transition-colors hover:bg-white/70"
             >
               <LogoFacebook />
-              Suivre nos chantiers sur Facebook
+              {t.footer.facebook}
             </a>
           </div>
 
           <nav className="flex flex-col gap-3">
             <p className="text-[11px] font-semibold uppercase tracking-[0.15em] text-dark/50">
-              Prestations
+              {t.footer.colPrestations}
             </p>
-            {PRESTATIONS.map((item) => (
+            {PRESTATIONS.map((href, i) => (
               <a
-                key={item.label}
-                href={item.href}
+                key={href}
+                href={lien(href)}
                 className="text-[13px] text-dark/80 transition-colors hover:text-dark"
               >
-                {item.label}
+                {t.footer.prestations[i]}
               </a>
             ))}
           </nav>
 
           <nav className="flex flex-col gap-3">
             <p className="text-[11px] font-semibold uppercase tracking-[0.15em] text-dark/50">
-              Entreprise
+              {t.footer.colEntreprise}
             </p>
-            {ENTREPRISE.map((item) => (
+            {ENTREPRISE.map((href, i) => (
               <a
-                key={item.label}
-                href={item.href}
+                key={href}
+                href={lien(href)}
                 className="text-[13px] text-dark/80 transition-colors hover:text-dark"
               >
-                {item.label}
+                {t.footer.entreprise[i]}
               </a>
             ))}
           </nav>
 
           <div className="flex flex-col gap-3">
             <p className="text-[11px] font-semibold uppercase tracking-[0.15em] text-dark/50">
-              Contact
+              {t.footer.colContact}
             </p>
             <p className="flex items-start gap-2 text-[13px] text-dark/80">
               <MapPin size={15} className="mt-0.5 shrink-0" />
@@ -139,7 +129,7 @@ export default function Footer() {
               info@vdhamenagements.be
             </a>
             <p className="mt-2 text-[11px] uppercase tracking-[0.1em] text-dark/50">
-              Lun – Sam · 8h – 18h · Dim. fermé
+              {t.footer.horaires}
             </p>
           </div>
         </div>
@@ -150,20 +140,21 @@ export default function Footer() {
           <p className="text-[11px] uppercase tracking-[0.1em] text-dark/60">
             © 2026 VDH Construct · Engis · BCE / TVA&nbsp;BE&nbsp;1015.396.691
           </p>
+          <SelecteurLangue />
           <div className="flex flex-wrap gap-x-6 gap-y-2">
             <a
-              href="/mentions-legales"
+              href={PAGE_LEGALE[l]}
               className="text-[11px] uppercase tracking-[0.1em] text-dark/60 underline-offset-2 transition-colors hover:text-dark hover:underline"
             >
-              Mentions légales
+              {t.footer.mentions}
             </a>
             {/* Le volet RGPD vit dans les mentions légales (bloc 06) tant que le site
                 reste une page unique sans formulaire serveur ni traceur. */}
             <a
-              href="/mentions-legales#donnees"
+              href={`${PAGE_LEGALE[l]}#donnees`}
               className="text-[11px] uppercase tracking-[0.1em] text-dark/60 underline-offset-2 transition-colors hover:text-dark hover:underline"
             >
-              Données personnelles
+              {t.footer.donnees}
             </a>
           </div>
         </div>

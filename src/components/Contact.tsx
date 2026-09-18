@@ -1,29 +1,14 @@
 import { useState, type FormEvent } from 'react';
 import { ArrowUpRight, Clock, Mail, MapPin, Phone } from 'lucide-react';
 import TexteRevele from '@/components/ui/TexteRevele';
+import { T } from '@/lib/i18n';
 
 const EMAIL = 'info@vdhamenagements.be';
 
-const TYPES = [
-  'Pavage et aménagement',
-  'Terrasse',
-  'Petite maçonnerie',
-  'Terrassement (sans mini-pelle)',
-  'Clôtures ou gabions',
-  'Création de parterres',
-  'Entretien de jardin ou de haies',
-  'Autre projet',
-];
-
-const DELAIS = ['Dès que possible', 'Dans 1 à 3 mois', 'Dans 3 à 6 mois', 'Je me renseigne'];
-
-const ENGAGEMENTS = [
-  'Visite sur place et devis gratuits, sans engagement',
-  'Déplacement dans un rayon de 20 km autour d’Engis',
-  'Joignable du lundi au samedi, de 8h à 18h',
-];
+// Les listes du formulaire viennent du dictionnaire.
 
 export default function Contact() {
+  const t = T();
   const [sent, setSent] = useState(false);
 
   // Pas de backend sur cette maquette : la demande part dans le client mail
@@ -34,14 +19,14 @@ export default function Contact() {
     const get = (key: string) => String(data.get(key) ?? '').trim();
 
     const corps = [
-      `Nom : ${get('nom')}`,
-      `E-mail : ${get('email')}`,
-      `Téléphone : ${get('telephone')}`,
+      `${t.contact.champNom} : ${get('nom')}`,
+      `${t.contact.champEmail} : ${get('email')}`,
+      `${t.contact.champTel} : ${get('telephone')}`,
       `Commune ou code postal : ${get('lieu')}`,
-      `Type de projet : ${get('type')}`,
+      `${t.contact.champProjet} : ${get('type')}`,
       `Démarrage souhaité : ${get('delai')}`,
       '',
-      'Description du projet :',
+      `${t.contact.champDescription} :`,
       get('message'),
     ].join('\n');
 
@@ -62,12 +47,12 @@ export default function Contact() {
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] lg:gap-20">
           <div>
             <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-gold-dark">
-              Contact
+              {t.contact.kicker}
             </p>
             <TexteRevele
               as="h2"
-              texte="Parlons de"
-              accent="votre extérieur"
+              texte={t.contact.titre}
+              accent={t.contact.titreAccent}
               accentClass="text-gold-dark"
               className="mt-4 font-octosquares font-bold uppercase leading-[0.95] text-[clamp(2rem,5vw,3.4rem)]"
             />
@@ -97,12 +82,12 @@ export default function Contact() {
               </p>
               <p className="flex items-center gap-3 py-4 text-[15px] text-black/70">
                 <MapPin size={17} className="shrink-0 text-gold-dark" />
-                Engis, Flémalle, Seraing · 20 km autour d’Engis
+                {t.contact.zone}
               </p>
             </div>
 
             <ul className="mt-8 flex flex-col gap-3">
-              {ENGAGEMENTS.map((item) => (
+              {t.contact.puces.map((item) => (
                 <li key={item} className="flex items-start gap-3 text-[13px] text-black/70">
                   <span className="mt-[7px] h-1 w-1 shrink-0 bg-dark" />
                   {item}
@@ -116,20 +101,20 @@ export default function Contact() {
               <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
                 <div>
                   <label className={label} htmlFor="nom">
-                    Nom et prénom
+                    {t.contact.champNom}
                   </label>
                   <input
                     id="nom"
                     name="nom"
                     required
                     autoComplete="name"
-                    placeholder="Marie Dupont"
+                    placeholder={t.contact.placeholderNom}
                     className={`mt-2 ${field}`}
                   />
                 </div>
                 <div>
                   <label className={label} htmlFor="telephone">
-                    Téléphone
+                    {t.contact.champTel}
                   </label>
                   <input
                     id="telephone"
@@ -146,7 +131,7 @@ export default function Contact() {
               <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
                 <div>
                   <label className={label} htmlFor="email">
-                    E-mail
+                    {t.contact.champEmail}
                   </label>
                   <input
                     id="email"
@@ -160,7 +145,7 @@ export default function Contact() {
                 </div>
                 <div>
                   <label className={label} htmlFor="lieu">
-                    Commune ou code postal
+                    {t.contact.champLieu}
                   </label>
                   <input
                     id="lieu"
@@ -175,13 +160,13 @@ export default function Contact() {
               <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
                 <div>
                   <label className={label} htmlFor="type">
-                    Type de projet
+                    {t.contact.champProjet}
                   </label>
                   <select id="type" name="type" required defaultValue="" className={`mt-2 ${field}`}>
                     <option value="" disabled>
-                      Sélectionner…
+                      {t.contact.selectionner}
                     </option>
-                    {TYPES.map((type) => (
+                    {t.contact.projets.map((type) => (
                       <option key={type} value={type}>
                         {type}
                       </option>
@@ -190,7 +175,7 @@ export default function Contact() {
                 </div>
                 <div>
                   <label className={label} htmlFor="delai">
-                    Démarrage souhaité
+                    {t.contact.champDelai}
                   </label>
                   <select
                     id="delai"
@@ -200,9 +185,9 @@ export default function Contact() {
                     className={`mt-2 ${field}`}
                   >
                     <option value="" disabled>
-                      Sélectionner…
+                      {t.contact.selectionner}
                     </option>
-                    {DELAIS.map((delai) => (
+                    {t.contact.delais.map((delai) => (
                       <option key={delai} value={delai}>
                         {delai}
                       </option>
@@ -213,14 +198,14 @@ export default function Contact() {
 
               <div>
                 <label className={label} htmlFor="message">
-                  Votre projet
+                  {t.contact.titreProjet}
                 </label>
                 <textarea
                   id="message"
                   name="message"
                   required
                   rows={5}
-                  placeholder="Surface en m², état du terrain, pente, accès pour les matériaux…"
+                  placeholder={t.contact.placeholderDescription}
                   className={`mt-2 resize-y ${field}`}
                 />
               </div>
@@ -232,15 +217,14 @@ export default function Contact() {
                   required
                   className="mt-0.5 h-4 w-4 shrink-0 accent-black"
                 />
-                J’accepte que mes informations soient utilisées pour être recontacté au sujet de ma
-                demande. Elles ne sont ni revendues ni transmises à des tiers.
+                {t.contact.consentement}
               </label>
 
               <button
                 type="submit"
                 className="inline-flex items-center justify-center gap-2 rounded-sm bg-dark px-7 py-4 text-[13px] font-medium uppercase tracking-[0.07em] text-gold transition-colors hover:bg-black"
               >
-                Envoyer ma demande
+                {t.contact.envoyer}
                 <ArrowUpRight size={16} />
               </button>
 

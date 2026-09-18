@@ -1,15 +1,18 @@
 import Marquee from '@/components/Marquee';
 import { useInView } from '@/components/scroll/Reveal';
+import { T, lien } from '@/lib/i18n';
 
 
+// Les libellés viennent du dictionnaire ; seuls les ancres restent ici.
 const NAV_LINKS = [
-  { label: 'Savoir-faire', href: '#solutions' },
-  { label: 'Services', href: '#secteurs' },
-  { label: 'Réalisations', href: '#realisations' },
-  { label: 'FAQ', href: '#faq' },
-];
+  { cle: 'savoirFaire', href: '#solutions' },
+  { cle: 'services', href: '#secteurs' },
+  { cle: 'realisations', href: '#realisations' },
+  { cle: 'faq', href: '#faq' },
+] as const;
 
 export default function Features() {
+  const t = T();
   const { ref, inView } = useInView<HTMLElement>();
   const anim = (cls: string) => (inView ? cls : 'opacity-0');
 
@@ -43,26 +46,26 @@ export default function Features() {
             <div className="hidden md:flex items-center gap-1">
               {NAV_LINKS.map((link, i) => (
                 <a
-                  key={link.label}
-                  href={link.href}
+                  key={t.nav[link.cle]}
+                  href={lien(link.href)}
                   className={`px-5 py-2.5 bg-black/5 rounded-sm text-[13px] font-medium uppercase tracking-[0.07em] text-black hover:bg-black/10 transition-colors ${anim(
                     'animate-fade-up'
                   )}`}
                   style={{ animationDelay: `${450 + i * 70}ms` }}
                 >
-                  {link.label}
+                  {t.nav[link.cle]}
                 </a>
               ))}
             </div>
 
             <a
-              href="#contact"
+              href={lien('#contact')}
               className={`hidden md:inline-flex px-6 py-3.5 bg-dark rounded-sm text-white text-[13px] font-medium uppercase tracking-[0.07em] hover:bg-black transition-colors ${anim(
                 'animate-fade-up'
               )}`}
               style={{ animationDelay: '750ms' }}
             >
-              Devis gratuit
+              {t.commun.devisGratuit}
             </a>
           </nav>
 
@@ -73,7 +76,7 @@ export default function Features() {
               )}`}
               style={{ animationDelay: '500ms' }}
             >
-De la petite intervention à l’aménagement complet de votre extérieur
+              {t.features.titre}
             </h2>
 
             <div className="-mx-5 sm:-mx-8 lg:-mx-12 mt-6 sm:mt-8">
@@ -86,7 +89,7 @@ De la petite intervention à l’aménagement complet de votre extérieur
               )}`}
               style={{ animationDelay: '1100ms' }}
             >
-              Entretien, pavage, terrasses, clôtures et maçonnerie : un seul artisan pour tout l’extérieur, à Engis et dans un rayon de 20 km.
+              {t.features.texte}
             </p>
 
             <div
@@ -96,16 +99,16 @@ De la petite intervention à l’aménagement complet de votre extérieur
               style={{ animationDelay: '1200ms' }}
             >
               <a
-                href="#contact"
+                href={lien('#contact')}
                 className="text-black text-[11px] font-semibold uppercase tracking-[0.05em] underline underline-offset-4 decoration-neutral-400 hover:decoration-neutral-900 transition-colors"
               >
-                Demander un devis
+                {t.features.demanderDevis}
               </a>
               <a
-                href="#realisations"
+                href={lien('#realisations')}
                 className="text-black text-[11px] font-semibold uppercase tracking-[0.05em] underline underline-offset-4 decoration-neutral-400 hover:decoration-neutral-900 transition-colors"
               >
-                Voir nos réalisations
+                {t.commun.voirRealisations}
               </a>
             </div>
           </div>

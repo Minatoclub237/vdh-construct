@@ -1,17 +1,21 @@
 import { useState } from 'react';
 import { ChevronDown, Menu, Phone, X } from 'lucide-react';
+import { T, lien } from '@/lib/i18n';
+import SelecteurLangue from '@/components/ui/SelecteurLangue';
 
+// Les libellés viennent du dictionnaire ; seuls les ancres restent ici.
 const NAV_LINKS = [
-  { label: 'Savoir-faire', href: '#solutions' },
-  { label: 'Services', href: '#secteurs' },
-  { label: 'Réalisations', href: '#realisations' },
-  { label: 'FAQ', href: '#faq' },
-];
+  { cle: 'savoirFaire', href: '#solutions' },
+  { cle: 'services', href: '#secteurs' },
+  { cle: 'realisations', href: '#realisations' },
+  { cle: 'faq', href: '#faq' },
+] as const;
 
 const TEL_DISPLAY = '+32 493 08 33 44';
 const TEL_HREF = 'tel:+32493083344';
 
 export default function Hero({ onAdvance }: { onAdvance: () => void }) {
+  const t = T();
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
@@ -41,27 +45,29 @@ export default function Hero({ onAdvance }: { onAdvance: () => void }) {
           <div className="hidden md:flex items-center gap-1">
             {NAV_LINKS.map((link, i) => (
               <a
-                key={link.label}
-                href={link.href}
+                key={t.nav[link.cle]}
+                href={lien(link.href)}
                 className="px-5 py-2.5 bg-black/5 rounded-sm text-[13px] font-medium uppercase tracking-[0.07em] text-black hover:bg-black/10 transition-colors animate-fade-up"
                 style={{ animationDelay: `${500 + i * 80}ms` }}
               >
-                {link.label}
+                {t.nav[link.cle]}
               </a>
             ))}
           </div>
 
+          <SelecteurLangue className="hidden md:flex animate-fade-up" />
+
           <a
-            href="#contact"
+            href={lien('#contact')}
             className="hidden md:inline-flex px-6 py-3.5 bg-dark rounded-sm text-gold text-[13px] font-medium uppercase tracking-[0.07em] hover:bg-black transition-colors animate-fade-up"
             style={{ animationDelay: '820ms' }}
           >
-            Devis gratuit
+            {t.commun.devisGratuit}
           </a>
 
           <button
             onClick={() => setMenuOpen(!menuOpen)}
-            aria-label="Ouvrir le menu"
+            aria-label={t.nav.ouvrirMenu}
             className="md:hidden flex items-center justify-center w-10 h-10 rounded-sm bg-black/5 hover:bg-black/10 transition-colors animate-fade-in"
             style={{ animationDelay: '500ms' }}
           >
@@ -92,28 +98,29 @@ export default function Hero({ onAdvance }: { onAdvance: () => void }) {
           <div className="flex flex-col px-5 sm:px-8 pt-8 gap-2">
             {NAV_LINKS.map((link, i) => (
               <a
-                key={link.label}
-                href={link.href}
+                key={t.nav[link.cle]}
+                href={lien(link.href)}
                 onClick={() => setMenuOpen(false)}
                 className={`px-5 py-4 bg-black/5 rounded-sm text-[14px] font-medium uppercase tracking-[0.07em] text-black hover:bg-black/10 transition-all duration-400 ${
                   menuOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3'
                 }`}
                 style={{ transitionDelay: menuOpen ? `${80 + i * 50}ms` : '0ms' }}
               >
-                {link.label}
+                {t.nav[link.cle]}
               </a>
             ))}
           </div>
           <div className="flex flex-col items-start gap-3 px-5 sm:px-8 mt-6">
+            <SelecteurLangue className="mb-1" />
             <a
-              href="#contact"
+              href={lien('#contact')}
               onClick={() => setMenuOpen(false)}
               className={`inline-flex px-6 py-4 bg-dark rounded-sm text-gold text-[13px] font-medium uppercase tracking-[0.07em] hover:bg-black transition-all duration-400 ${
                 menuOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3'
               }`}
               style={{ transitionDelay: menuOpen ? `${80 + NAV_LINKS.length * 50}ms` : '0ms' }}
             >
-              Devis gratuit
+              {t.commun.devisGratuit}
             </a>
             <a
               href={TEL_HREF}
@@ -135,19 +142,19 @@ export default function Hero({ onAdvance }: { onAdvance: () => void }) {
               className="block text-[clamp(1.8rem,7vw,5.5rem)] animate-fade-up"
               style={{ animationDelay: '500ms' }}
             >
-              Pavage
+              {t.hero.mots[0]}
             </span>
             <span
               className="block text-[clamp(1.8rem,7vw,5.5rem)] mt-2 sm:mt-3 animate-fade-up"
               style={{ animationDelay: '620ms' }}
             >
-              Terrasse
+              {t.hero.mots[1]}
             </span>
             <span
               className="block text-[clamp(1.8rem,7vw,5.5rem)] mt-2 sm:mt-3 animate-fade-up"
               style={{ animationDelay: '740ms' }}
             >
-              Maçonnerie
+              {t.hero.mots[2]}
             </span>
           </h1>
 
@@ -155,7 +162,7 @@ export default function Hero({ onAdvance }: { onAdvance: () => void }) {
             className="max-w-[26rem] px-5 sm:px-8 lg:px-12 mt-6 lg:mt-0 mb-5 sm:mb-6 text-black text-[14px] sm:text-[15px] font-medium uppercase leading-[1.4] tracking-[0.04em] animate-fade-up lg:col-start-1 lg:row-start-2"
             style={{ animationDelay: '900ms' }}
           >
-            Aménagements extérieurs à Engis, Flémalle et Seraing. Devis gratuit après visite sur place, du lundi au samedi.
+            {t.hero.baseline}
           </p>
 
           <div
@@ -171,11 +178,11 @@ export default function Hero({ onAdvance }: { onAdvance: () => void }) {
               en bas de la colonne de texte. */}
           <div className="flex flex-wrap items-center gap-3 px-5 sm:px-8 lg:px-12 pt-5 sm:pt-6 pb-6 sm:pb-12 border-t lg:border-t-0 border-dashed border-gold-dark lg:pt-0 lg:col-start-1 lg:row-start-3">
             <a
-              href="#contact"
+              href={lien('#contact')}
               className="inline-flex px-6 py-3.5 bg-dark rounded-sm text-gold text-[13px] font-medium uppercase tracking-[0.07em] hover:bg-black transition-colors animate-fade-up"
               style={{ animationDelay: '1050ms' }}
             >
-              Devis gratuit
+              {t.commun.devisGratuit}
             </a>
             <a
               href={TEL_HREF}
@@ -190,7 +197,7 @@ export default function Hero({ onAdvance }: { onAdvance: () => void }) {
               className="inline-flex items-center gap-2 px-5 py-3.5 rounded-sm border border-gold-dark text-black text-[13px] font-medium uppercase tracking-[0.07em] hover:bg-black/5 transition-colors animate-fade-up"
               style={{ animationDelay: '1190ms' }}
             >
-              Défiler
+              {t.hero.defiler}
               <ChevronDown size={16} className="animate-bounce" />
             </button>
 
@@ -198,7 +205,7 @@ export default function Hero({ onAdvance }: { onAdvance: () => void }) {
               className="basis-full text-black/70 text-[11px] sm:text-[12px] font-medium uppercase tracking-[0.1em] animate-fade-up"
               style={{ animationDelay: '1260ms' }}
             >
-              Visite sur place · Sans engagement · Dans 20 km autour d&apos;Engis
+              {t.hero.garanties}
             </p>
           </div>
         </div>

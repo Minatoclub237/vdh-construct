@@ -4,7 +4,7 @@ import App from './App.tsx';
 import { definirLangue } from './lib/i18n';
 import './index.css';
 
-definirLangue('fr');
+definirLangue('nl');
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

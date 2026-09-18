@@ -1,46 +1,16 @@
 import { useEffect, useRef, useState } from 'react';
 import { ArrowRight } from 'lucide-react';
 import TexteRevele from '@/components/ui/TexteRevele';
+import { T, lien } from '@/lib/i18n';
 
 // Quatre chantiers dont on possede l'etat AVANT et l'etat FINI du meme endroit.
 // Chaque paire a ete confirmee sur un detail identifiable (mur peint, descente
 // d'eau, couvre-mur, toiture) : on n'affiche pas deux photos qui se ressemblent.
-const PAIRES = [
-  {
-    slug: 'allee-pierre',
-    titre: 'Allée en pierre naturelle',
-    lieu: 'Abords de maison',
-    detail:
-      'Les anciennes dalles se déchaussaient et les joints étaient pris par la mousse. Décaissement, fondation, puis pose de dalles de pierre naturelle avec une pente d’évacuation vers la pelouse.',
-    repere: 'Même mur en brique peinte, même retour de pelouse à gauche.',
-  },
-  {
-    slug: 'passage-technique',
-    titre: 'Passage technique',
-    lieu: 'Site industriel',
-    detail:
-      'Un couloir de service entre deux bâtiments, rendu impraticable par la végétation. Débroussaillage, géotextile et empierrement : le passage reste propre et l’eau s’évacue.',
-    repere: 'Même descente d’eau coudée, même bardage métallique.',
-  },
-  {
-    slug: 'muret-parterre',
-    titre: 'Muret et parterre',
-    lieu: 'Jardin en pente',
-    detail:
-      'Un talus qui s’effondrait sur le chemin. Muret de soutènement en brique, couvre-mur posé d’aplomb, puis remise en terre et plantation du parterre au-dessus.',
-    repere: 'Mêmes dalles de couvre-mur, même haie taillée à l’arrière.',
-  },
-  {
-    slug: 'cloture-site',
-    titre: 'Clôture de site',
-    lieu: 'Limite de propriété',
-    detail:
-      'Une limite tenue par des barrières de chantier provisoires. Poteaux scellés et panneaux de grillage rigide posés au cordeau sur toute la longueur.',
-    repere: 'Même toiture courbe rouge et blanche, mêmes arbres au fond.',
-  },
-];
+// Seuls les slugs restent ici : les textes viennent du dictionnaire.
+const PAIRES = ['allee-pierre', 'passage-technique', 'muret-parterre', 'cloture-site'];
 
 export default function AvantApres() {
+  const t = T();
   const plagesRef = useRef<(HTMLDivElement | null)[]>([]);
   const [etats, setEtats] = useState(() => PAIRES.map(() => ({ volet: 0, entree: 0 })));
 
@@ -106,28 +76,28 @@ export default function AvantApres() {
       <div className="mx-auto max-w-[1400px] px-5 pt-20 sm:px-8 sm:pt-24 lg:px-12">
         <header className="max-w-[46rem]">
           <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-gold">
-            Le même endroit, avant et après
+            {t.avantApres.kicker}
           </p>
           <TexteRevele
             as="h2"
-            texte="Ce qu’il y avait"
-            accent="à la place."
+            texte={t.avantApres.titre}
+            accent={t.avantApres.titreAccent}
             className="mt-3 font-octosquares text-[clamp(2.2rem,7vw,5rem)] font-bold uppercase leading-[0.9]"
           />
           <p className="mt-5 max-w-[34rem] text-[14px] leading-[1.6] text-white/60 sm:text-[15px]">
-            Quatre chantiers dont nous avons gardé la photo de départ. Chaque carte se pose
-            au centre de l’écran, puis l’état d’origine s’efface au profit du résultat.
+            {t.avantApres.intro}
           </p>
         </header>
       </div>
 
       {/* Une plage par paire : la carte y reste collée, centrée, le temps du volet. */}
       {PAIRES.map((p, i) => {
+            const tp = t.avantApres.paires[i];
         const { volet, entree } = etats[i];
         const pct = Math.round(volet * 100);
         return (
           <div
-            key={p.slug}
+            key={p}
             ref={(el) => { plagesRef.current[i] = el; }}
             className="relative h-[165vh]"
           >
@@ -151,16 +121,16 @@ export default function AvantApres() {
                   >
                     {/* Etat d'origine, dessous */}
                     <img
-                      src={`/avant-apres/${p.slug}-avant.webp`}
-                      alt={`Avant travaux : ${p.titre.toLowerCase()}`}
+                      src={`/avant-apres/${p}-avant.webp`}
+                      alt={`${t.avantApres.avant} : ${tp.titre.toLowerCase()}`}
                       loading="lazy"
                       draggable={false}
                       className="absolute inset-0 h-full w-full object-cover"
                     />
                     {/* Resultat, revele par le volet */}
                     <img
-                      src={`/avant-apres/${p.slug}-apres.webp`}
-                      alt={`Après travaux : ${p.titre.toLowerCase()}`}
+                      src={`/avant-apres/${p}-apres.webp`}
+                      alt={`${t.avantApres.apres} : ${tp.titre.toLowerCase()}`}
                       loading="lazy"
                       draggable={false}
                       className="absolute inset-0 h-full w-full object-cover"
@@ -174,28 +144,28 @@ export default function AvantApres() {
                     />
 
                     <span className="absolute left-4 top-4 rounded-full bg-black/65 px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.15em] text-white/80 backdrop-blur-sm">
-                      Avant
+                      {t.avantApres.avant}
                     </span>
                     <span
                       className="absolute right-4 top-4 rounded-full bg-gold px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.15em] text-dark transition-opacity duration-300"
                       style={{ opacity: pct > 25 ? 1 : 0.25 }}
                     >
-                      Après
+                      {t.avantApres.apres}
                     </span>
                   </div>
 
                   <div>
                     <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-gold">
-                      0{i + 1} · {p.lieu}
+                      0{i + 1} · {tp.lieu}
                     </p>
                     <h3 className="mt-1.5 text-xl font-semibold leading-tight sm:text-2xl lg:text-3xl">
-                      {p.titre}
+                      {tp.titre}
                     </h3>
                     <p className="mt-2.5 max-w-[34rem] text-[13px] leading-[1.6] text-white/65 sm:text-[14px]">
-                      {p.detail}
+                      {tp.detail}
                     </p>
                     <p className="mt-3 border-l-2 border-gold/50 pl-3 text-[11px] leading-[1.5] text-white/40 sm:text-[12px]">
-                      {p.repere}
+                      {tp.repere}
                     </p>
 
                     <div
@@ -214,10 +184,10 @@ export default function AvantApres() {
 
       <div className="mx-auto max-w-[1400px] px-5 pb-20 sm:px-8 sm:pb-24 lg:px-12">
         <a
-          href="#contact"
+          href={lien('#contact')}
           className="inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-[12px] font-medium uppercase tracking-[0.07em] text-black transition-colors hover:bg-gold"
         >
-          Montrez-nous votre « avant »
+          {t.avantApres.cta}
           <ArrowRight size={15} />
         </a>
       </div>
