@@ -1,12 +1,14 @@
 import { ArrowUpRight, Mail, MapPin, Phone } from 'lucide-react';
 import TexteRevele from '@/components/ui/TexteRevele';
 
+// Chaque prestation ouvre la famille correspondante dans Réalisations.
+// « Entretien » n'a pas de famille photo : il renvoie au contact.
 const PRESTATIONS = [
-  'Pavage & terrasses',
-  'Maçonnerie de jardin',
-  'Terrassement & drainage',
-  'Clôtures & gabions',
-  'Entretien de jardin',
+  { label: 'Pavage & terrasses', href: '#realisations-pavage' },
+  { label: 'Maçonnerie de jardin', href: '#realisations-maconnerie' },
+  { label: 'Terrassement & drainage', href: '#realisations-terrassement' },
+  { label: 'Clôtures & portails', href: '#realisations-clotures' },
+  { label: 'Entretien de jardin', href: '#contact' },
 ];
 
 const ENTREPRISE = [
@@ -88,11 +90,11 @@ export default function Footer() {
             </p>
             {PRESTATIONS.map((item) => (
               <a
-                key={item}
-                href="#contact"
+                key={item.label}
+                href={item.href}
                 className="text-[13px] text-dark/80 transition-colors hover:text-dark"
               >
-                {item}
+                {item.label}
               </a>
             ))}
           </nav>
