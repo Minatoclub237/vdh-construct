@@ -4,6 +4,7 @@ import Features from '@/components/Features';
 import ScrollStage from '@/components/ScrollStage';
 import Realisations from '@/components/Realisations';
 import ChantierVideo from '@/components/ChantierVideo';
+import AvantApres from '@/components/AvantApres';
 import Faq from '@/components/Faq';
 import Contact from '@/components/Contact';
 import Footer from '@/components/Footer';
@@ -87,6 +88,8 @@ export default function App() {
       <Realisations />
 
       <ChantierVideo />
+
+      <AvantApres />
 
       <Faq />
 

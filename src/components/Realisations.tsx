@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { ArrowUpRight, Phone, X, ChevronLeft, ChevronRight } from 'lucide-react';
 import { FAMILLES, type Photo } from '@/lib/familles';
 import { useInView } from '@/components/scroll/Reveal';
@@ -228,9 +229,12 @@ export default function Realisations() {
         </div>
       </div>
 
-      {/* Plein écran : on tombe directement sur les photos de la famille. */}
-      {famille && (
-        <div className="fixed inset-0 z-50 overflow-y-auto overscroll-contain bg-[#E8E3DD]">
+      {/* Plein écran : on tombe directement sur les photos de la famille.
+          Rendu dans un portail sur <body> : `fixed` ne suffit pas, car le z-index
+          de l'overlay resterait enfermé dans le contexte d'empilement de la section
+          (z-2) et la 2e vidéo (z-10) passerait par-dessus. */}
+      {famille && createPortal(
+        <div className="fixed inset-0 z-[90] overflow-y-auto overscroll-contain bg-[#E8E3DD]">
           <div className="sticky top-0 z-10 border-b border-black/10 bg-[#E8E3DD]/95 backdrop-blur-md">
             <div className="mx-auto flex max-w-[1500px] flex-wrap items-center gap-x-6 gap-y-3 px-5 py-4 sm:px-8">
               <div className="min-w-0">
@@ -294,12 +298,13 @@ export default function Realisations() {
               />
             ))}
           </div>
-        </div>
+        </div>,
+        document.body,
       )}
 
-      {famille && photo !== null && (
+      {famille && photo !== null && createPortal(
         <div
-          className="fixed inset-0 z-[60] flex items-center justify-center bg-black/92 p-4 sm:p-8"
+          className="fixed inset-0 z-[95] flex items-center justify-center bg-black/92 p-4 sm:p-8"
           role="dialog"
           aria-modal="true"
           aria-label={famille.photos[photo].titre}
@@ -342,7 +347,8 @@ export default function Realisations() {
           >
             <ChevronRight size={22} />
           </button>
-        </div>
+        </div>,
+        document.body,
       )}
     </section>
   );
