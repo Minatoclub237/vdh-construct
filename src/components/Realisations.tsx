@@ -1,9 +1,10 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { ArrowUpRight, Phone, X, ChevronLeft, ChevronRight } from 'lucide-react';
 
 type Photo = { src: string; titre: string; alt: string };
 type Famille = {
   slug: string;
+  num: string;
   titre: string;
   intro: string;
   resume: string;
@@ -12,14 +13,15 @@ type Famille = {
 };
 
 // Une entree par photo reellement posee dans public/realisations/<famille>.
-// Seules des realisations terminees : aucun chantier en cours, aucun avant-travaux.
+// Uniquement des realisations terminees : aucun chantier en cours, aucun avant-travaux.
 const FAMILLES: Famille[] = [
   {
     slug: 'terrassement',
-    titre: 'Terrassement & drainage',
+    num: '01',
+    titre: 'Terrassement\n& drainage',
     intro: 'Le support qui empêche tout le reste de bouger',
     resume:
-      'Décaissement, empierrement et pente d’évacuation. Allées carrossables, cours en gravier et dalles alvéolées posées sur un fond stabilisé — de quoi encaisser une voiture sans creuser d’ornière.',
+      'Décaissement, empierrement et pente d’évacuation. Allées carrossables, cours en gravier et dalles alvéolées posées sur un fond stabilisé.',
     couverture: '/realisations/terrassement/double-bande-roulement.webp',
     photos: [
       { src: '/realisations/terrassement/double-bande-roulement.webp', titre: 'Double bande de roulement', alt: 'Allée en gravier avec deux bandes de dalles alvéolées blanches' },
@@ -36,10 +38,11 @@ const FAMILLES: Famille[] = [
   },
   {
     slug: 'pavage',
-    titre: 'Pavage & dallage',
+    num: '02',
+    titre: 'Pavage\n& dallage',
     intro: 'Terrasses, allées et abords',
     resume:
-      'Pierre naturelle, klinkers et pavés anciens, posés sur fondation avec bordures et niveaux tenus. Terrasses, entrées, abords de façade et parterres minéraux.',
+      'Pierre naturelle, klinkers et pavés anciens, posés sur fondation avec bordures et niveaux tenus. Terrasses, entrées et abords de façade.',
     couverture: '/realisations/pavage/terrasse-pierre-naturelle.webp',
     photos: [
       { src: '/realisations/pavage/terrasse-pierre-naturelle.webp', titre: 'Terrasse en pierre naturelle', alt: 'Terrasse en dalles de pierre naturelle irrégulière le long d’une maison blanche' },
@@ -55,10 +58,11 @@ const FAMILLES: Famille[] = [
   },
   {
     slug: 'maconnerie',
-    titre: 'Maçonnerie de jardin',
+    num: '03',
+    titre: 'Maçonnerie\nde jardin',
     intro: 'Murs, piliers et ouvrages maçonnés',
     resume:
-      'Murets de soutènement et murs bahut en pierre, brique ou blocs, couvre-murs en pierre bleue, piliers, escaliers et barbecues maçonnés. Les ouvrages qui structurent un terrain en pente.',
+      'Murets de soutènement et murs bahut en pierre, brique ou blocs, couvre-murs en pierre bleue, piliers, escaliers et barbecues maçonnés.',
     couverture: '/realisations/maconnerie/muret-courbe-pierre.webp',
     photos: [
       { src: '/realisations/maconnerie/muret-courbe-pierre.webp', titre: 'Muret courbe en pierre', alt: 'Muret courbe en pierre naturelle entourant une pelouse' },
@@ -74,12 +78,35 @@ const FAMILLES: Famille[] = [
       { src: '/realisations/maconnerie/pilier-maconne.webp', titre: 'Pilier maçonné', alt: 'Pilier maçonné en blocs couronné de brique' },
     ],
   },
+  {
+    slug: 'clotures',
+    num: '04',
+    titre: 'Clôtures\n& portails',
+    intro: 'Délimiter, fermer, masquer',
+    resume:
+      'Grillage rigide, panneaux occultants, clôtures bois et portails, posés d’aplomb sur poteaux scellés. Du jardin privatif au site industriel.',
+    couverture: '/realisations/clotures/cloture-bois-noire.webp',
+    photos: [
+      { src: '/realisations/clotures/cloture-bois-noire.webp', titre: 'Clôture bois noire', alt: 'Clôture en bois peinte en noir avec portillon devant une terrasse dallée' },
+      { src: '/realisations/clotures/grillage-prairie.webp', titre: 'Clôture de prairie', alt: 'Clôture en grillage rigide vert bordant une prairie' },
+      { src: '/realisations/clotures/cloture-portail-vert.webp', titre: 'Clôture et portail', alt: 'Clôture en grillage rigide vert avec portail en limite de terrain' },
+      { src: '/realisations/clotures/grillage-vert-terrain.webp', titre: 'Grillage rigide', alt: 'Clôture en grillage rigide vert le long d’un terrain' },
+      { src: '/realisations/clotures/cloture-portillon-jardin.webp', titre: 'Clôture et portillon', alt: 'Clôture en grillage rigide vert avec portillon dans un jardin' },
+      { src: '/realisations/clotures/occultant-gris-cour.webp', titre: 'Panneaux occultants', alt: 'Clôture en panneaux occultants gris bordant une cour bétonnée' },
+      { src: '/realisations/clotures/occultant-gris-gravier.webp', titre: 'Brise-vue sur cour', alt: 'Clôture occultante grise le long d’une cour en gravier' },
+      { src: '/realisations/clotures/cloture-noire-batiment.webp', titre: 'Clôture noire', alt: 'Clôture noire devant un bâtiment industriel' },
+      { src: '/realisations/clotures/cloture-industrielle.webp', titre: 'Clôture industrielle', alt: 'Clôture grillagée autour d’une installation industrielle' },
+      { src: '/realisations/clotures/grillage-vert-industriel.webp', titre: 'Grillage de site', alt: 'Clôture en grillage rigide vert sur un site industriel' },
+    ],
+  },
 ];
 
-const CARTE_ACTIVE = 'border-black bg-black text-white';
-const CARTE_INACTIVE = 'border-black/12 bg-white/55 text-black hover:border-black/35 hover:bg-white';
-
 export default function Realisations() {
+  const rangeRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const galerieRef = useRef<HTMLDivElement>(null);
+  const metrics = useRef({ top: 0, height: 1 });
+
   const [actif, setActif] = useState(FAMILLES[0].slug);
   const [visionneuse, setVisionneuse] = useState<number | null>(null);
 
@@ -88,11 +115,71 @@ export default function Realisations() {
     [actif],
   );
 
-  // Les blocs de la vidéo pointent vers #realisations-<famille> : on ouvre la bonne famille.
+  // Le défilement vertical pilote la translation horizontale de la bande.
+  useEffect(() => {
+    const range = rangeRef.current;
+    const track = trackRef.current;
+    if (!range || !track) return;
+
+    const measure = () => {
+      metrics.current = {
+        top: range.getBoundingClientRect().top + window.scrollY,
+        height: range.offsetHeight,
+      };
+    };
+
+    let raf = 0;
+    const render = () => {
+      raf = 0;
+      const { top, height } = metrics.current;
+      const total = Math.max(1, height - window.innerHeight);
+      const raw = (window.scrollY - top) / total;
+      const progress = raw < 0 ? 0 : raw > 1 ? 1 : raw;
+      const distance = Math.max(0, track.scrollWidth - window.innerWidth);
+      track.style.transform = `translate3d(${-progress * distance}px, 0, 0)`;
+    };
+
+    const onScroll = () => {
+      if (!raf) raf = requestAnimationFrame(render);
+    };
+
+    const onResize = () => {
+      measure();
+      onScroll();
+    };
+
+    measure();
+    render();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onResize);
+    return () => {
+      if (raf) cancelAnimationFrame(raf);
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onResize);
+    };
+  }, []);
+
+  const ouvrir = useCallback((slug: string, defiler: boolean) => {
+    setActif(slug);
+    setVisionneuse(null);
+    history.replaceState(null, '', `#realisations-${slug}`);
+    if (defiler) {
+      requestAnimationFrame(() => {
+        galerieRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    }
+  }, []);
+
+  // Les blocs de la 2e vidéo pointent vers #realisations-<famille>.
   useEffect(() => {
     const lireHash = () => {
       const cible = window.location.hash.replace('#realisations-', '').replace('#', '');
-      if (FAMILLES.some((f) => f.slug === cible)) setActif(cible);
+      const f = FAMILLES.find((x) => x.slug === cible);
+      if (!f) return;
+      setActif(f.slug);
+      requestAnimationFrame(() => {
+        galerieRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
     };
     lireHash();
     window.addEventListener('hashchange', lireHash);
@@ -126,84 +213,123 @@ export default function Realisations() {
     };
   }, [visionneuse, deplacer]);
 
-  const choisir = (slug: string) => {
-    setActif(slug);
-    setVisionneuse(null);
-    history.replaceState(null, '', `#realisations-${slug}`);
-  };
-
   return (
     <section
       id="realisations"
       className="relative z-[2] rounded-t-[40px] bg-[#E8E3DD] font-inter shadow-[0_-28px_60px_-18px_rgba(0,0,0,0.35)]"
     >
-      <div className="mx-auto max-w-[1400px] px-5 py-20 sm:px-8 sm:py-24 lg:px-12">
-        <header className="max-w-[46rem]">
-          <p className="text-[12px] font-semibold uppercase tracking-[0.2em] text-gold-dark sm:text-[13px]">
-            Sélection de projets
-          </p>
-          <h2 className="mt-4 font-octosquares text-[clamp(2.6rem,9vw,6rem)] font-bold uppercase leading-[0.9] text-black">
-            Réalisations
-          </h2>
-          <p className="mt-6 max-w-[34rem] text-[14px] leading-[1.6] text-black/60 sm:text-[15px]">
-            Trente chantiers menés autour d’Engis, rangés par métier. Choisissez une famille pour
-            voir ce que ça donne une fois terminé.
-          </p>
-        </header>
+      {/* La bande des quatre familles, tirée par le défilement vertical. */}
+      <div ref={rangeRef} className="relative h-[300vh]">
+        <div className="sticky top-0 flex h-screen items-center overflow-x-clip supports-[height:100svh]:h-[100svh]">
+          <div
+            ref={trackRef}
+            className="flex w-max items-center gap-6 pl-5 pr-[20vw] sm:gap-10 sm:pl-8 lg:pl-12"
+            style={{ willChange: 'transform' }}
+          >
+            <header className="w-[80vw] max-w-[42rem] shrink-0">
+              <p className="text-[12px] font-semibold uppercase tracking-[0.2em] text-gold-dark sm:text-[13px]">
+                Sélection de projets
+              </p>
+              <h2 className="mt-4 font-octosquares text-[clamp(2.6rem,9vw,7rem)] font-bold uppercase leading-[0.9] text-black">
+                Réalisations
+              </h2>
+              <p className="mt-6 max-w-[26rem] text-[14px] leading-[1.5] text-black/60 sm:text-[15px]">
+                Quarante chantiers menés autour d’Engis, rangés en quatre métiers.
+                Cliquez sur une famille pour voir ce que ça donne une fois terminé.
+              </p>
+            </header>
 
-        {/* Les trois familles, résumées puis cliquables. */}
-        <div className="mt-12 grid gap-4 sm:grid-cols-3 sm:gap-5">
-          {FAMILLES.map((f) => {
-            const on = f.slug === actif;
-            return (
-              <button
-                key={f.slug}
-                type="button"
-                onClick={() => choisir(f.slug)}
-                aria-pressed={on}
-                className={`group overflow-hidden rounded-2xl border text-left transition-colors duration-300 ${on ? CARTE_ACTIVE : CARTE_INACTIVE}`}
-              >
-                <div className="relative h-36 overflow-hidden sm:h-40">
+            {FAMILLES.map((f) => {
+              const on = f.slug === actif;
+              return (
+                <button
+                  key={f.slug}
+                  type="button"
+                  onClick={() => ouvrir(f.slug, true)}
+                  aria-pressed={on}
+                  className={`group relative h-[58vh] max-h-[530px] w-[78vw] max-w-[620px] shrink-0 overflow-hidden rounded-2xl text-left transition-shadow duration-500 ${on ? 'shadow-[0_0_0_3px_#F3AF42]' : ''}`}
+                >
                   <img
                     src={f.couverture}
                     alt=""
                     aria-hidden
                     loading="lazy"
-                    className={`h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04] ${on ? '' : 'grayscale group-hover:grayscale-0'}`}
+                    draggable={false}
+                    className={`absolute inset-0 h-full w-full object-cover transition-[filter,transform] duration-700 ease-out group-hover:scale-[1.03] group-hover:grayscale-0 ${on ? '' : 'grayscale'}`}
                   />
-                </div>
-                <div className="p-5">
-                  <div className="flex items-baseline justify-between gap-3">
-                    <h3 className="text-lg font-semibold leading-tight sm:text-xl">{f.titre}</h3>
-                    <span className={`shrink-0 text-[12px] font-medium ${on ? 'text-gold' : 'text-black/45'}`}>
-                      {f.photos.length}
-                    </span>
-                  </div>
-                  <p className={`mt-1 text-[12px] uppercase tracking-[0.12em] ${on ? 'text-white/55' : 'text-black/45'}`}>
-                    {f.intro}
-                  </p>
-                  <p className={`mt-3 text-[13px] leading-[1.6] ${on ? 'text-white/75' : 'text-black/60'}`}>
-                    {f.resume}
-                  </p>
-                </div>
-              </button>
-            );
-          })}
-        </div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent" />
 
-        {/* Les photos de la famille choisie. */}
-        <div className="mt-10 flex items-center justify-between gap-4 border-t border-black/10 pt-6">
-          <p className="text-[13px] text-black/55">
-            <span className="font-semibold text-black">{famille.titre}</span> — {famille.photos.length}{' '}
-            réalisations terminées
-          </p>
+                  <div className="absolute inset-x-5 bottom-5 sm:inset-x-7 sm:bottom-7">
+                    <div className="flex items-end justify-between gap-4">
+                      <div>
+                        <span className="text-[13px] font-medium text-gold">{f.num}</span>
+                        <h3 className="mt-1 whitespace-pre-line text-2xl font-semibold leading-[1.1] text-white sm:text-3xl">
+                          {f.titre}
+                        </h3>
+                        <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.15em] text-white/60">
+                          {f.intro}
+                        </p>
+                        <p className="mt-3 max-w-[22rem] text-[13px] leading-[1.55] text-white/80">
+                          {f.resume}
+                        </p>
+                        <span className="mt-4 inline-flex items-center gap-2 rounded-full bg-white px-5 py-2.5 text-[12px] font-medium uppercase tracking-[0.07em] text-black transition-colors group-hover:bg-gold">
+                          Voir les {f.photos.length} réalisations
+                          <ChevronRight size={14} />
+                        </span>
+                      </div>
+                      <ArrowUpRight
+                        size={22}
+                        className="shrink-0 text-white/70 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-white"
+                      />
+                    </div>
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+
+      {/* Les photos de la famille choisie. */}
+      <div ref={galerieRef} className="mx-auto max-w-[1400px] scroll-mt-6 px-5 pb-20 sm:px-8 sm:pb-24 lg:px-12">
+        <div className="flex flex-wrap items-center justify-between gap-4 border-t border-black/10 pt-8">
+          <div>
+            <p className="font-mono text-[11px] uppercase tracking-[0.15em] text-gold-dark">
+              Famille {famille.num}
+            </p>
+            <h3 className="mt-1 text-2xl font-semibold leading-tight text-black sm:text-3xl">
+              {famille.titre.replace('\n', ' ')}
+              <span className="ml-3 text-[14px] font-normal text-black/45">
+                {famille.photos.length} réalisations terminées
+              </span>
+            </h3>
+          </div>
           <a
             href="#contact"
-            className="hidden shrink-0 items-center gap-2 rounded-full bg-black px-5 py-2.5 text-[12px] font-medium uppercase tracking-[0.07em] text-white transition-colors hover:bg-black/80 sm:inline-flex"
+            className="inline-flex shrink-0 items-center gap-2 rounded-full bg-black px-5 py-2.5 text-[12px] font-medium uppercase tracking-[0.07em] text-white transition-colors hover:bg-black/80"
           >
             <Phone size={14} />
             Devis gratuit
           </a>
+        </div>
+
+        {/* Raccourci entre familles, sans remonter la bande. */}
+        <div className="mt-6 flex flex-wrap gap-2">
+          {FAMILLES.map((f) => (
+            <button
+              key={f.slug}
+              type="button"
+              onClick={() => ouvrir(f.slug, false)}
+              aria-pressed={f.slug === actif}
+              className={`rounded-full border px-4 py-2 text-[12px] font-medium transition-colors duration-300 ${
+                f.slug === actif
+                  ? 'border-black bg-black text-white'
+                  : 'border-black/15 bg-white/50 text-black/70 hover:border-black/40 hover:bg-white'
+              }`}
+            >
+              {f.titre.replace('\n', ' ')}
+            </button>
+          ))}
         </div>
 
         <div className="mt-6 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3 xl:grid-cols-4">
@@ -235,14 +361,6 @@ export default function Realisations() {
             </button>
           ))}
         </div>
-
-        <a
-          href="#contact"
-          className="mt-8 inline-flex items-center gap-2 rounded-full bg-black px-6 py-3 text-[12px] font-medium uppercase tracking-[0.07em] text-white transition-colors hover:bg-black/80 sm:hidden"
-        >
-          <Phone size={14} />
-          Devis gratuit
-        </a>
       </div>
 
       {visionneuse !== null && (

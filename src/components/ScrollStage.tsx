@@ -8,6 +8,7 @@ const SERVICES = [
   { label: '/ PAVAGE & TERRASSE', slug: 'pavage' },
   { label: '/ MAÇONNERIE DE JARDIN', slug: 'maconnerie' },
   { label: '/ TERRASSEMENT & ENTRETIEN', slug: 'terrassement' },
+  { label: '/ CLÔTURES & PORTAILS', slug: 'clotures' },
 ];
 
 const CAPABILITIES = [
@@ -31,6 +32,13 @@ const CAPABILITIES = [
     title: 'Maçonnerie de jardin',
     body: 'Murs de soutènement, abris de jardin, piliers, rejointoyage et travaux de béton.',
     compte: 11,
+  },
+  {
+    index: '04',
+    slug: 'clotures',
+    title: 'Clôtures & portails',
+    body: 'Grillage rigide, panneaux occultants, clôtures bois et portails, sur poteaux scellés d’aplomb.',
+    compte: 10,
   },
 ];
 
